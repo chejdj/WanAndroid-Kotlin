@@ -1,8 +1,42 @@
 package com.chejdj.wanandroid_kotlin.data.remote
 
+import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
+import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
+import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
+import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
+import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
+import io.reactivex.Observable
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+
 /**
  * Created by zhuyangyang on 2019-08-12
  */
-class HttpService {
+object HttpService {
+    private var apiService: ApiService? = null
+    private val baseUrl: String = "https://www.wanandroid.com"
 
+    init {
+        val okHttpClient: OkHttpClient = OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build()
+        val retrofit: Retrofit =
+            Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient).addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+        apiService = retrofit.create(ApiService::class.java)
+    }
+
+
+    fun login(username: String, password: String): Observable<BaseRes<LoginBean>> {
+        return apiService!!.userLogin(username, password)
+    }
+
+    fun getHomeBanner(): Observable<BaseRes<List<HomeBannerBean>>> {
+        return apiService!!.getHomeBanner()
+    }
+
+    fun getHomeArticles(pageNum: Int): Observable<BaseRes<ArticleData>> {
+        return apiService!!.getHomeArticles(pageNum)
+    }
 }

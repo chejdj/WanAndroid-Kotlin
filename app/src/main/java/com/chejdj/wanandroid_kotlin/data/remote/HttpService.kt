@@ -2,8 +2,10 @@ package com.chejdj.wanandroid_kotlin.data.remote
 
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
+import com.chejdj.wanandroid_kotlin.data.bean.HotKeyBean
 import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
+import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -39,4 +41,30 @@ object HttpService {
     fun getHomeArticles(pageNum: Int): Observable<BaseRes<ArticleData>> {
         return apiService!!.getHomeArticles(pageNum)
     }
+
+    fun getKnowledgeArchitecture(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+        return apiService!!.getKnowledgeArchitecture()
+    }
+
+    fun getKonwledgeArchitectureDetialArticle(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+        return apiService!!.getKonwledgeArchitectureDetialArticle(pageNum, cid)
+    }
+
+    fun getHotKeys(): Observable<BaseRes<HotKeyBean>> {
+        return apiService!!.getHotKeys()
+    }
+
+    fun getSearchResults(pageNum: Int, keywords: String): Observable<BaseRes<ArticleData>> {
+        return apiService!!.getSearchResults(pageNum, keywords)
+    }
+
+    fun getCollectedArticle(pageNum: Int): Observable<BaseRes<ArticleData>> {
+        return apiService!!.getCollectedArticle(pageNum)
+    }
+
+    fun collectArticle(articleId: Int): Observable<BaseRes<ArticleData>> {
+        return apiService!!.collectArticle(articleId)
+    }
+
+
 }

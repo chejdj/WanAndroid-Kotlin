@@ -53,7 +53,7 @@ interface ApiService {
      * 获取搜索热词
      */
     @GET("hotkey/json")
-    fun getHotKeys(): Observable<BaseRes<HotKeyBean>>
+    fun getHotKeys(): Observable<BaseRes<List<HotKeyBean>>>
 
     /**
      * 搜索

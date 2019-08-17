@@ -52,7 +52,7 @@ object HttpService {
         return apiService!!.getKonwledgeArchitectureDetialArticle(pageNum, cid)
     }
 
-    fun getHotKeys(): Observable<BaseRes<HotKeyBean>> {
+    fun getHotKeys(): Observable<BaseRes<List<HotKeyBean>>> {
         return apiService!!.getHotKeys()
     }
 

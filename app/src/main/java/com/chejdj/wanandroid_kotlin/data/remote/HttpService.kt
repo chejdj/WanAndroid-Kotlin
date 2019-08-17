@@ -7,6 +7,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
+import com.chejdj.wanandroid_kotlin.data.remote.cookie.CookieManager
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -22,7 +23,8 @@ object HttpService {
     private val baseUrl: String = "https://www.wanandroid.com"
 
     init {
-        val okHttpClient: OkHttpClient = OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build()
+        val okHttpClient: OkHttpClient =
+            OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).cookieJar(CookieManager()).build()
         val retrofit: Retrofit =
             Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient).addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()

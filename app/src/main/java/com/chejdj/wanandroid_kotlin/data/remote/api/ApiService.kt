@@ -75,4 +75,24 @@ interface ApiService {
      */
     @POST("lg/collect/{articleId}/json")
     fun collectArticle(@Path("articleId") articleId: Int): Observable<BaseRes<ArticleData>>
+
+    /**
+     * 获取微信公众号的列表
+     */
+    @GET("wxarticle/chapters/json")
+    fun getWechatArticleLists(): Observable<BaseRes<PrimaryArticleDirectoryBean>>
+
+    /**
+     * 查看微信公众号历史文章
+     */
+    @GET("wxarticle/list/{cid}/{pageNum}/json")
+    fun getWechatChapterArticles(@Path("cid") cid: Int, @Path("pageNum") pageNum: Int): Observable<BaseRes<ArticleData>>
+
+    /**
+     * 在某个公众号里面搜索历史文章
+     */
+    @GET("wxarticle/list/{cid}/{pageNum}/json")
+    fun searhArticlesInWechat(@Path("cid") cid: Int, @Path("pageNum") pageNum: Int, @Query("k") keywords: String): Observable<BaseRes<ArticleData>>
+
+
 }

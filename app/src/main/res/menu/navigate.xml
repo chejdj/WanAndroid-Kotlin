@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/home"
           android:icon="@drawable/menu_home"
-          android:title="@string/home"/>
+          android:title="@string/menu_home"/>
     <item android:id="@+id/architecture"
           android:icon="@drawable/menu_knowledge_hierarchy"
-          android:title="@string/architecture"/>
+          android:title="@string/menu_knowledge_hierarchy"/>
     <item android:id="@+id/wechatStub"
           android:icon="@drawable/menu_wechat_sub"
-          android:title="@string/weichatStub"
+          android:title="@string/menu_wechat_sub"
     />
     <item android:icon="@drawable/menu_project"
           android:id="@+id/project"
-          android:title="@string/project"/>
+          android:title="@string/menu_project"/>
     <item android:icon="@drawable/menu_me"
           android:id="@+id/me"
-          android:title="@string/me"/>
+          android:title="@string/menu_me"/>
 
 </menu>

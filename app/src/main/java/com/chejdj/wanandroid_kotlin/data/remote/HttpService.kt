@@ -8,6 +8,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
 import com.chejdj.wanandroid_kotlin.data.remote.cookie.CookieManager
+import com.chejdj.wanandroid_kotlin.data.remote.cookie.DiskCookieStore
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

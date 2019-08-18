@@ -1,13 +1,14 @@
 package com.chejdj.wanandroid_kotlin.ui.architecture
 
+import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 
 class ArchitectureFragment : BaseFragment() {
     override fun getLayoutId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+       return R.layout.fragment_architecture
     }
 
     override fun initView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 }

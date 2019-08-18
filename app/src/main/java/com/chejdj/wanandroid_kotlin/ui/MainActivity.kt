@@ -13,7 +13,7 @@ import com.chejdj.wanandroid_kotlin.ui.wechatstub.WechatStubFragment
 
 class MainActivity : BaseActivity() {
     @BindView(R.id.navigate)
-    private lateinit var navigate: BottomNavigationView
+    lateinit var navigate: BottomNavigationView
     private val fragmentList: ArrayList<Fragment> = ArrayList()
     private var lastFragment: Int = 0
 

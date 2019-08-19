@@ -60,13 +60,14 @@ class DiskCookieStore(context: Context) {
         }
     }
 
-    fun queryCookie(uri: URI): MutableList<Cookie>? {
+    fun queryCookie(uri: URI): MutableList<Cookie> {
         mLock.lock()
+        val cookies = ArrayList<Cookie>()
         if (cookieStore.containsKey(uri.host)) {
-            return cookieStore[uri.host]!!.values as MutableList<Cookie>
+            cookies.addAll(cookieStore[uri.host]!!.values)
         }
         mLock.unlock()
-        return null
+        return cookies
     }
 
     private fun getCookieName(cookie: Cookie): String {

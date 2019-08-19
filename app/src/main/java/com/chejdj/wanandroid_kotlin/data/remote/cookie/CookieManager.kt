@@ -18,8 +18,7 @@ class CookieManager : CookieJar {
         }
     }
 
-    override fun loadForRequest(url: HttpUrl): MutableList<Cookie>? {
+    override fun loadForRequest(url: HttpUrl): MutableList<Cookie> {
         return cookieStore.queryCookie(url.uri())
     }
-
 }

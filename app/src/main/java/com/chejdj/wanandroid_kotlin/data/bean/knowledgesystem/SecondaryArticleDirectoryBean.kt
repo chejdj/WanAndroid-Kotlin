@@ -1,5 +1,7 @@
 package com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem
 
+import com.chejdj.wanandroid_kotlin.data.bean.article.Article
+
 /**
  * Created by zhuyangyang on 2019-08-15
  */
@@ -17,12 +19,12 @@ package com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem
 }
  **/
 class SecondaryArticleDirectoryBean {
-    private var children: List<SecondaryArticleDirectoryBean>? = null
-    private var courseId: Int = 0
-    private var id: Int = 0
-    private var name: String? = null
-    private var order: Int = 0
-    private var parentChapterId: Int = 0
-    private var userControlSetTop: Boolean = false
-    private var visible: Int = 0
+    var children: List<Article>? = null
+    var courseId: Int = 0
+    var id: Int = 0
+    var name: String? = null
+    var order: Int = 0
+    var parentChapterId: Int = 0
+    var userControlSetTop: Boolean = false
+    var visible: Int = 0
 }

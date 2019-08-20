@@ -20,12 +20,12 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 */
  */
 class PrimaryArticleDirectoryBean {
-    private var children: List<Article>? = null
-    private var courseId: Int = 0
-    private var id: Int = 0
-    private var name: String? = null
-    private var order: Int = 0
-    private var parentChapterId: Int = 0
-    private var userControlSetTop: Boolean = false
-    private var visible: Int = 0
+    var children: List<SecondaryArticleDirectoryBean>? = null
+    var courseId: Int = 0
+    var id: Int = 0
+    var name: String? = null
+    var order: Int = 0
+    var parentChapterId: Int = 0
+    var userControlSetTop: Boolean = false
+    var visible: Int = 0
 }

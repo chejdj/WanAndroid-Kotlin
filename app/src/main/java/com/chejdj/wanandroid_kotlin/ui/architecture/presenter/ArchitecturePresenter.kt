@@ -14,28 +14,30 @@ import io.reactivex.schedulers.Schedulers
  */
 class ArchitecturePresenter(view: ArchitectureContract.View) : ArchitectureContract.Presenter {
     private val model: ArchitectureContract.Model
+    private val view: ArchitectureContract.View
 
     init {
         model = ArchitectureModel()
+        this.view = view
     }
 
     override fun getArchitectureData() {
         model.getArchitectureData().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object: Observer<BaseRes<List<PrimaryArticleDirectoryBean>>>{
+            .subscribe(object : Observer<BaseRes<List<PrimaryArticleDirectoryBean>>> {
                 override fun onComplete() {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onNext(t: BaseRes<List<PrimaryArticleDirectoryBean>>) {
+                    if (view !== null && t.data !== null) {
+                        view.showArchitectureData(t.data!!)
+                    }
                 }
 
                 override fun onError(e: Throwable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
             })

@@ -9,7 +9,7 @@ import io.reactivex.Observable
  */
 interface ArchitectureContract {
     interface View {
-        fun showArchitectureData()
+        fun showArchitectureData(data: List<PrimaryArticleDirectoryBean>)
     }
 
     interface Presenter {

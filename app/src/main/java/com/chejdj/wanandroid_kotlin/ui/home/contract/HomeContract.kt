@@ -7,7 +7,7 @@ import io.reactivex.Observable
 
 interface HomeContract {
     interface View {
-        fun shwoBannerData(data: List<HomeBannerBean>?)
+        fun showBannerData(data: List<HomeBannerBean>?)
         fun showArticlesData(data: ArticleData?)
     }
 

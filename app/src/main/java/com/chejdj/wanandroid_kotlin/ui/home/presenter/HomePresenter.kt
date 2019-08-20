@@ -36,7 +36,7 @@ class HomePresenter(private var view: HomeContract.View?) : HomeContract.Present
                 }
 
                 override fun onNext(t: BaseRes<List<HomeBannerBean>>) {
-                    view?.shwoBannerData(t.data)
+                    view?.showBannerData(t.data)
                 }
 
                 override fun onError(e: Throwable) {

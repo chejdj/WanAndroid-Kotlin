@@ -82,7 +82,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         (presenter as HomePresenter).destory()
     }
 
-    override fun shwoBannerData(data: List<HomeBannerBean>?) {
+    override fun showBannerData(data: List<HomeBannerBean>?) {
         if (data !== null) {
             homeBanner.update(data)
         }

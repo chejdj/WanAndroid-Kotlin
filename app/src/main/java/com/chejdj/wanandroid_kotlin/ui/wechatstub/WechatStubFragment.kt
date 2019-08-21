@@ -5,7 +5,7 @@ import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 
 class WechatStubFragment : BaseFragment() {
     override fun getLayoutId(): Int {
-        return R.layout.fragment_wechatstub
+        return R.layout.fragment_tag
     }
 
     override fun initView() {

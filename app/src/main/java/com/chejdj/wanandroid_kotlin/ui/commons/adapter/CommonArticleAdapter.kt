@@ -1,4 +1,4 @@
-package com.chejdj.wanandroid_kotlin.ui.commonarticle
+package com.chejdj.wanandroid_kotlin.ui.commons.adapter
 
 import android.support.v4.text.HtmlCompat
 import android.support.v4.text.HtmlCompat.FROM_HTML_MODE_LEGACY

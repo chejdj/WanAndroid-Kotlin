@@ -94,5 +94,17 @@ interface ApiService {
     @GET("wxarticle/list/{cid}/{pageNum}/json")
     fun searhArticlesInWechat(@Path("cid") cid: Int, @Path("pageNum") pageNum: Int, @Query("k") keywords: String): Observable<BaseRes<ArticleData>>
 
+    /**
+     * 获取项目分类列表
+     */
+    @GET("project/tree/json")
+    fun getProjectSorts(): Observable<BaseRes<PrimaryArticleDirectoryBean>>
+
+    /**
+     * 获取项目列表数据
+     */
+    @GET("project/list/{pageNum}/json")
+    fun getProjectData(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Observable<BaseRes<ArticleData>>
+
 
 }

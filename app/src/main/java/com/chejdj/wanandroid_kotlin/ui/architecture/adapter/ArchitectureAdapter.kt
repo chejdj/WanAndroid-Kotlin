@@ -1,4 +1,4 @@
-package com.chejdj.wanandroid_kotlin.ui.architecture
+package com.chejdj.wanandroid_kotlin.ui.architecture.adapter
 
 import android.view.LayoutInflater
 import android.view.View

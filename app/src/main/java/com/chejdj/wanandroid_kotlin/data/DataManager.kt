@@ -49,4 +49,21 @@ object DataManager {
     fun collectArticle(articleId: Int): Observable<BaseRes<ArticleData>> {
         return HttpService.collectArticle(articleId)
     }
+
+    fun getWechatArticleLists(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+        return HttpService.getWechatArticleLists()
+    }
+
+    fun getWechatChapterArticles(cid: Int, pageNum: Int): Observable<BaseRes<ArticleData>> {
+        return HttpService.getWechatChapterArticles(cid, pageNum)
+    }
+
+    fun getProjectSorts(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+        return HttpService.getProjectSorts()
+    }
+
+    fun getProjectData(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+        return HttpService.getProjectData(pageNum, cid)
+    }
+
 }

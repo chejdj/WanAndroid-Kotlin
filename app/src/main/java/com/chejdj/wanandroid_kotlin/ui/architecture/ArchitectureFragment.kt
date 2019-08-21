@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
+import com.chejdj.wanandroid_kotlin.ui.architecture.adapter.ArchitectureAdapter
 import com.chejdj.wanandroid_kotlin.ui.architecture.contract.ArchitectureContract
 import com.chejdj.wanandroid_kotlin.ui.architecture.presenter.ArchitecturePresenter
 import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
@@ -24,7 +25,8 @@ class ArchitectureFragment : BaseFragment(), ArchitectureContract.View {
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = linearLayoutManager
-        adapter = ArchitectureAdapter(R.layout.item_architecture, data)
+        adapter =
+            ArchitectureAdapter(R.layout.item_architecture, data)
         adapter.openLoadAnimation()
         recyclerView.adapter = adapter
         presenter = ArchitecturePresenter(this)

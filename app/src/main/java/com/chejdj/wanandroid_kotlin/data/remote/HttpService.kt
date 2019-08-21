@@ -8,12 +8,13 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
 import com.chejdj.wanandroid_kotlin.data.remote.cookie.CookieManager
-import com.chejdj.wanandroid_kotlin.data.remote.cookie.DiskCookieStore
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 /**
@@ -69,5 +70,20 @@ object HttpService {
         return apiService!!.collectArticle(articleId)
     }
 
+    fun getWechatArticleLists(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+        return apiService!!.getWechatArticleLists()
+    }
+
+    fun getWechatChapterArticles(cid: Int, pageNum: Int): Observable<BaseRes<ArticleData>> {
+        return apiService!!.getWechatChapterArticles(cid, pageNum)
+    }
+
+    fun getProjectSorts(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+        return apiService!!.getProjectSorts()
+    }
+
+    fun getProjectData(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+        return apiService!!.getProjectData(pageNum, cid)
+    }
 
 }

@@ -11,7 +11,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
-import com.chejdj.wanandroid_kotlin.ui.commonarticle.CommonArticleAdapter
+import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
 import com.chejdj.wanandroid_kotlin.ui.home.presenter.HomePresenter
 import com.youth.banner.Banner
@@ -41,7 +41,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         homeBanner.setImages(bannerList)
         homeBanner.start()
 
-        commonArticleAdapter = CommonArticleAdapter(R.layout.item_article, articleList)
+        commonArticleAdapter =
+            CommonArticleAdapter(R.layout.item_article, articleList)
         commonArticleAdapter.addHeaderView(headerView)
         commonArticleAdapter.openLoadAnimation()
         commonArticleAdapter.setEnableLoadMore(true)

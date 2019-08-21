@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.base.BaseActivity">
+
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigate"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:menu="@menu/navigate"
             app:itemIconTint="@color/navigate_select"
             app:itemTextColor="@color/navigate_select"
-            android:layout_alignParentBottom="true"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/navigate" />
+
     <FrameLayout
             android:id="@+id/content"
-            android:layout_alignParentTop="true"
-            android:layout_above="@id/navigate"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"
+            android:layout_above="@id/navigate"
+            app:layout_constraintBottom_toTopOf="@id/navigate"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

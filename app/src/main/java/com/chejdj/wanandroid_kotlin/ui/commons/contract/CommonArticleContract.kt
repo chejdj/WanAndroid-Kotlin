@@ -7,7 +7,7 @@ import io.reactivex.Observable
 
 interface CommonArticleContract {
     interface View {
-        fun showArticleDatas(data: List<Article>)
+        fun showArticleDatas(data: ArticleData)
     }
 
     interface Model {
@@ -16,5 +16,6 @@ interface CommonArticleContract {
 
     interface Presenter {
         fun getArticleData(cid: Int, pageCount: Int, type: Int)
+        fun releaseResource()
     }
 }

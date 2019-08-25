@@ -39,6 +39,7 @@ class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
         adapter.setEnableLoadMore(true)
         recyclerView.adapter = adapter
         presenter = CommonArticlePresenter(this)
+        presenter.getArticleData(cid, currentPage, type)
         adapter.setOnLoadMoreListener({
             currentPage++
             if (currentPage >= totalPage) {
@@ -52,6 +53,7 @@ class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
     override fun showArticleDatas(articleData: ArticleData) {
         currentPage = articleData.curPage
         totalPage = articleData.pageCount
+        adapter.loadMoreComplete()
         if (currentPage == 0) {
             data.clear()
         }

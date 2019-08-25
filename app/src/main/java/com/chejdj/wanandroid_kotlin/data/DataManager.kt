@@ -50,7 +50,7 @@ object DataManager {
         return HttpService.collectArticle(articleId)
     }
 
-    fun getWechatArticleLists(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return HttpService.getWechatArticleLists()
     }
 
@@ -58,7 +58,7 @@ object DataManager {
         return HttpService.getWechatChapterArticles(cid, pageNum)
     }
 
-    fun getProjectSorts(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+    fun getProjectSorts(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return HttpService.getProjectSorts()
     }
 

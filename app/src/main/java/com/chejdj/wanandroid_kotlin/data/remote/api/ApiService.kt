@@ -80,7 +80,7 @@ interface ApiService {
      * 获取微信公众号的列表
      */
     @GET("wxarticle/chapters/json")
-    fun getWechatArticleLists(): Observable<BaseRes<PrimaryArticleDirectoryBean>>
+    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>
 
     /**
      * 查看微信公众号历史文章
@@ -98,7 +98,7 @@ interface ApiService {
      * 获取项目分类列表
      */
     @GET("project/tree/json")
-    fun getProjectSorts(): Observable<BaseRes<PrimaryArticleDirectoryBean>>
+    fun getProjectSorts(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>
 
     /**
      * 获取项目列表数据

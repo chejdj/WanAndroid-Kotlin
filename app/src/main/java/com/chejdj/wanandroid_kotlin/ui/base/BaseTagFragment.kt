@@ -1,12 +1,10 @@
 package com.chejdj.wanandroid_kotlin.ui.base
 
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.widget.TextView
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
-import com.chejdj.wanandroid_kotlin.ui.commons.CommonArticleFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonTagsViewPagerAdapter
 
 /**
@@ -19,25 +17,21 @@ abstract class BaseTagFragment : BaseFragment() {
     lateinit var viewPager: ViewPager
     @BindView(R.id.title)
     lateinit var title: TextView
-    private val fragments: ArrayList<Fragment> = ArrayList()
     lateinit var viewPagerAdapter: CommonTagsViewPagerAdapter
+    var type: Int = 0
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_tag
     }
 
-    override fun initView() {
-
-    }
-
     fun showTags(tagsList: List<String>, cidNumbers: List<Int>) {
-        for ((index, item) in tagsList.withIndex()) {
+        for (item in tagsList) {
             tabLayout.addTab(tabLayout.newTab().setText(item))
-            fragments.add(CommonArticleFragment.getCommonArticleFragment(cidNumbers[index], 0))
         }
-        viewPagerAdapter = CommonTagsViewPagerAdapter(cidNumbers, 0, childFragmentManager)
+        viewPagerAdapter = CommonTagsViewPagerAdapter(tagsList, cidNumbers, type, childFragmentManager)
         viewPager.adapter = viewPagerAdapter
+        viewPager.currentItem = 0
         tabLayout.setupWithViewPager(viewPager)
+        viewPagerAdapter.notifyDataSetChanged()
     }
-
 }

@@ -70,7 +70,7 @@ object HttpService {
         return apiService!!.collectArticle(articleId)
     }
 
-    fun getWechatArticleLists(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>{
         return apiService!!.getWechatArticleLists()
     }
 
@@ -78,7 +78,7 @@ object HttpService {
         return apiService!!.getWechatChapterArticles(cid, pageNum)
     }
 
-    fun getProjectSorts(): Observable<BaseRes<PrimaryArticleDirectoryBean>> {
+    fun getProjectSorts(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return apiService!!.getProjectSorts()
     }
 

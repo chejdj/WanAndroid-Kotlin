@@ -1,7 +1,5 @@
 package com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem
 
-import com.chejdj.wanandroid_kotlin.data.bean.article.Article
-
 /**
  * Created by zhuyangyang on 2019-08-15
  */

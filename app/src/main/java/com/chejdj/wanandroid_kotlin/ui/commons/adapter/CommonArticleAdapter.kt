@@ -24,7 +24,7 @@ class CommonArticleAdapter(layoutResId: Int, data: List<Article>) :
         }
         var category = item.superChapterName + "/" + item.chapterName
         var tags: String
-        if (item.tags!!.isEmpty())
+        if (item.tags == null || item.tags!!.isEmpty())
             tags = "分类"
         else {
             tags = item.tags!![0]!!.name!!

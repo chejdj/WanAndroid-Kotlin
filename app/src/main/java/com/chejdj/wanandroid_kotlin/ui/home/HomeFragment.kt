@@ -1,5 +1,6 @@
 package com.chejdj.wanandroid_kotlin.ui.home
 
+import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
 import com.chejdj.wanandroid_kotlin.ui.home.presenter.HomePresenter
+import com.chejdj.wanandroid_kotlin.ui.search.SearchActivity
 import com.youth.banner.Banner
 
 class HomeFragment : BaseFragment(), HomeContract.View {
@@ -74,7 +76,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     @OnClick(R.id.search)
     fun intentToSearchActivity() {
-
+        val intent = Intent(context, SearchActivity::class.java)
+        startActivity(intent)
     }
 
 

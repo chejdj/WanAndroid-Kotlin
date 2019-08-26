@@ -13,9 +13,9 @@ package com.chejdj.wanandroid_kotlin.data.bean
 "visible": 1
 }*/
 class HotKeyBean {
-    private var id: Long = 0
-    private var link: String? = null
-    private var name: String? = null
-    private var order: Int = 0
-    private var visible: Int = 0
+    var id: Long = 0
+    var link: String? = null
+    var name: String? = null
+    var order: Int = 0
+    var visible: Int = 0
 }

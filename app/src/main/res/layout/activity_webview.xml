@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -26,7 +26,7 @@
                     android:background="?attr/selectableItemBackground"
                     android:contentDescription="@string/back"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/back" />
+                    android:src="@drawable/back"/>
 
 
             <TextView
@@ -39,9 +39,15 @@
                     android:maxLines="1"
                     android:textColor="#fff"
                     android:textSize="@dimen/toolbar_title_tx"
-                    tools:text="Android自定义Viewlll" />
+                    tools:text="Android自定义Viewlll"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+    <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
 
 </android.support.constraint.ConstraintLayout>

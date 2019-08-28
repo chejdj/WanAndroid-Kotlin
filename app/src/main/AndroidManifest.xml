@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".ui.search.SearchActivity"/>
+        <activity android:name=".ui.webview.WebViewActivity"/>
     </application>
 
 </manifest>

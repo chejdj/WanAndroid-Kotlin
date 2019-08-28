@@ -12,6 +12,7 @@ import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.presenter.CommonArticlePresenter
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.commons.contract.CommonArticleContract
+import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 
 class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
 
@@ -48,6 +49,13 @@ class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
                 presenter.getArticleData(cid, currentPage, type)
             }
         }, recyclerView)
+        adapter.setOnItemClickListener { adapter, view, position ->
+            if (position < data.size) {
+                val article = data[position]
+                WebViewActivity.launch(context!!, article.link!!, article.title!!)
+            }
+        }
+
     }
 
     override fun showArticleDatas(articleData: ArticleData) {

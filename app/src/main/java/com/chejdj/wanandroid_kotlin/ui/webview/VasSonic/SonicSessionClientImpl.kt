@@ -11,6 +11,10 @@ class SonicSessionClientImpl : SonicSessionClient() {
         this.webView = webView
     }
 
+    fun getWebView(): WebView {
+        return webView
+    }
+
     override fun loadDataWithBaseUrlAndHeader(
         baseUrl: String?,
         data: String?,
@@ -19,10 +23,15 @@ class SonicSessionClientImpl : SonicSessionClient() {
         historyUrl: String?,
         headers: HashMap<String, String>?
     ) {
+        if (headers!!.isEmpty()) {
+            webView.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl)
+        } else {
+            webView.loadUrl(baseUrl, headers)
+        }
     }
 
     override fun loadUrl(url: String?, extraData: Bundle?) {
-        webView.loadUrl(url);
+        webView.loadUrl(url)
     }
 
     override fun loadDataWithBaseUrl(
@@ -32,6 +41,6 @@ class SonicSessionClientImpl : SonicSessionClient() {
         encoding: String?,
         historyUrl: String?
     ) {
-        webView.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
+        webView.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl)
     }
 }

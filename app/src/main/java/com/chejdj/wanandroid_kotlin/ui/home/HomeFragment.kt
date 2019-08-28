@@ -16,6 +16,7 @@ import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
 import com.chejdj.wanandroid_kotlin.ui.home.presenter.HomePresenter
 import com.chejdj.wanandroid_kotlin.ui.search.SearchActivity
+import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 import com.youth.banner.Banner
 
 class HomeFragment : BaseFragment(), HomeContract.View {
@@ -66,6 +67,17 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                 commonArticleAdapter.loadMoreEnd()
             }
         }, recyclerView)
+        commonArticleAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position < articleList.size) {
+                val article = articleList[position]
+                WebViewActivity.launch(context!!, article.link!!, article.title!!)
+            }
+        }
+        homeBanner.setOnBannerListener {
+            if (it < bannerList.size) {
+                WebViewActivity.launch(context!!, bannerList[it].url!!, bannerList[it].title!!)
+            }
+        }
 
     }
 

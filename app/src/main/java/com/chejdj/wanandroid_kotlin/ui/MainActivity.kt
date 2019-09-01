@@ -39,6 +39,7 @@ class MainActivity : BaseActivity() {
             .show(fragmentList[0])
             .commit()
         lastFragment = 0
+        navigate.labelVisibilityMode = 1
         navigate.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {

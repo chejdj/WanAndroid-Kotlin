@@ -47,7 +47,7 @@ interface ApiService {
      * cid: 二级目录的id
      */
     @GET("article/list/{pageNum}/json")
-    fun getKonwledgeArchitectureDetialArticle(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Observable<BaseRes<ArticleData>>
+    fun getKonwledgeArchitectureDetailArticle(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Observable<BaseRes<ArticleData>>
 
     /**
      * 获取搜索热词

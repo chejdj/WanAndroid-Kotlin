@@ -5,6 +5,6 @@ package com.chejdj.wanandroid_kotlin.data.bean
  */
 class BaseRes<T> {
     var errorCode: Int = 0
-    var errorMsg: String? = null
+    var errorMsg: String = ""
     var data: T? = null
 }

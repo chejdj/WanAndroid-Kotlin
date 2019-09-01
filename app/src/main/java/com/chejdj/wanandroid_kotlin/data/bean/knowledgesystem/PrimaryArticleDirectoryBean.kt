@@ -21,7 +21,7 @@ class PrimaryArticleDirectoryBean {
     var children: List<SecondaryArticleDirectoryBean>? = null
     var courseId: Int = 0
     var id: Int = 0
-    var name: String? = null
+    var name: String = ""
     var order: Int = 0
     var parentChapterId: Int = 0
     var userControlSetTop: Boolean = false

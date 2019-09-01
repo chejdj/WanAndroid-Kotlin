@@ -31,7 +31,7 @@ object DataManager {
     }
 
     fun getKonwledgeArchitectureDetialArticle(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
-        return HttpService.getKonwledgeArchitectureDetialArticle(pageNum, cid)
+        return HttpService.getKnowledgeArchitectureDetailArticle(pageNum, cid)
     }
 
     fun getHotKeys(): Observable<BaseRes<List<HotKeyBean>>> {

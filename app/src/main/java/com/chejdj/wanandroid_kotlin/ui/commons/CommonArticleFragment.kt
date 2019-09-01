@@ -52,7 +52,7 @@ class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
         adapter.setOnItemClickListener { adapter, view, position ->
             if (position < data.size) {
                 val article = data[position]
-                WebViewActivity.launch(context!!, article.link!!, article.title!!)
+                WebViewActivity.launchWebViewActivity(context!!, article.link!!, article.title!!)
             }
         }
 

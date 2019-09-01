@@ -1,29 +1,18 @@
 package com.chejdj.wanandroid_kotlin.ui.webview
 
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.WindowManager
+import android.view.KeyEvent
 import android.webkit.WebResourceRequest
-import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
-import android.widget.Toast
+import butterknife.BindView
+import butterknife.ButterKnife
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
-import com.chejdj.wanandroid_kotlin.ui.webview.VasSonic.HostSonicRuntime
-import com.chejdj.wanandroid_kotlin.ui.webview.VasSonic.SonicSessionClientImpl
-import com.tencent.sonic.sdk.SonicConfig
-import com.tencent.sonic.sdk.SonicEngine
-import com.tencent.sonic.sdk.SonicSession
-import com.tencent.sonic.sdk.SonicSessionConfig
-import kotlinx.android.synthetic.main.activity_webview.*
 
 
 /**
@@ -31,14 +20,21 @@ import kotlinx.android.synthetic.main.activity_webview.*
  * 作为一个WebView来加载文章页面
  */
 class WebViewActivity : AppCompatActivity() {
+    @BindView(R.id.title)
+    lateinit var titleTx: TextView
+    @BindView(R.id.webView)
+    lateinit var webView: WebView
     private lateinit var articleUrl: String
     private lateinit var articleTitle: String
-    private lateinit var sonicSession: SonicSession
 
+    fun getLayoutId(): Int {
+        return R.layout.activity_webview
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_webview)
+        setContentView(getLayoutId())
+        ButterKnife.bind(this)
         if (savedInstanceState != null) {
             articleUrl = savedInstanceState.getString(ARTICLE_URL)
             articleTitle = savedInstanceState.getString(ARTICLE_TITLE)
@@ -46,70 +42,39 @@ class WebViewActivity : AppCompatActivity() {
             articleUrl = intent.getStringExtra(ARTICLE_URL)
             articleTitle = intent.getStringExtra(ARTICLE_TITLE)
         }
+        initView()
+    }
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
-
-        if (!SonicEngine.isGetInstanceAllowed()) {
-            SonicEngine.createInstance(HostSonicRuntime(application), SonicConfig.Builder().build())
-        }
-        val config = SonicSessionConfig.Builder().build()
-        SonicEngine.getInstance().preCreateSession(articleUrl, config)
-
-        val sonicSessionClient = SonicSessionClientImpl()
-        sonicSession = SonicEngine.getInstance().createSession(articleUrl, config)
-        if (null != sonicSession) {
-            sonicSession.bindClient(sonicSessionClient)
-        } else {
-            Toast.makeText(this, "create sonic session fail!", Toast.LENGTH_LONG).show()
-        }
-
-        val titleTx: TextView = findViewById(R.id.title)
+    fun initView() {
         titleTx.text = articleTitle
-        val webView: WebView = findViewById(R.id.webView)
-
-        webView.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
-                if (sonicSession != null) {
-                    sonicSession.sessionClient.pageFinish(url)
-                }
-            }
-
-            @TargetApi(21)
-            override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
-                return shouldInterceptRequest(view, request.url.toString())
-            }
-
-            override fun shouldInterceptRequest(view: WebView, url: String): WebResourceResponse? {
-                return if (sonicSession != null) {
-                    sonicSession.sessionClient.requestResource(url) as WebResourceResponse
-                } else null
-            }
-        }
-
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
-        webView.removeJavascriptInterface("searchBoxJavaBridge_")
-        intent.putExtra(SonicJavaScriptInterface.PARAM_LOAD_URL_TIME, System.currentTimeMillis())
-        webView.addJavascriptInterface(SonicJavaScriptInterface(sonicSessionClient, intent), "sonic")
-
-        // init webview settings
         webSettings.allowContentAccess = true
         webSettings.databaseEnabled = true
         webSettings.domStorageEnabled = true
         webSettings.setAppCacheEnabled(true)
-        webSettings.savePassword = false
-        webSettings.saveFormData = false
         webSettings.useWideViewPort = true
         webSettings.loadWithOverviewMode = true
+        webSettings.blockNetworkImage = true
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                webView.loadUrl(request?.url.toString())
+                return super.shouldOverrideUrlLoading(view, request)
+            }
 
-
-        if (sonicSessionClient != null) {
-            sonicSessionClient.bindWebView(webView)
-            sonicSessionClient.clientReady()
-        } else {
-            webView.loadUrl(articleUrl)
+            override fun onPageFinished(view: WebView?, url: String?) {
+                webSettings.blockNetworkImage = false
+                super.onPageFinished(view, url)
+            }
         }
+        webView.setOnKeyListener { v, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+                webView.goBack()
+                true
+            }
+            false
+        }
+        webView.loadUrl(articleUrl)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -121,7 +86,7 @@ class WebViewActivity : AppCompatActivity() {
     companion object {
         const val ARTICLE_URL = "ARTICLE_URL"
         const val ARTICLE_TITLE = "ARTICEL_TITLE"
-        fun launch(context: Context, url: String, title: String) {
+        fun launchWebViewActivity(context: Context, url: String, title: String) {
             val intent = Intent(context, WebViewActivity::class.java)
             intent.putExtra(ARTICLE_URL, url)
             intent.putExtra(ARTICLE_TITLE, title)
@@ -130,14 +95,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     @OnClick(R.id.back)
-    fun back() {
+    fun goToBack() {
         finish()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (null != sonicSession) {
-            sonicSession.destroy()
-        }
     }
 }

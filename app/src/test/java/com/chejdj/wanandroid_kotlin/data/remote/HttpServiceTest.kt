@@ -107,7 +107,7 @@ class HttpServiceTest {
 
     @Test
     fun getKonwledgeArchitectureDetialArticle() {
-        HttpService.getKonwledgeArchitectureDetialArticle(0, 60).subscribeOn(Schedulers.io())
+        HttpService.getKnowledgeArchitectureDetailArticle(0, 60).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<BaseRes<ArticleData>> {
                 override fun onComplete() {

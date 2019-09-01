@@ -16,18 +16,18 @@ import kotlinx.android.synthetic.main.item_article.view.*
 class CommonArticleAdapter(layoutResId: Int, data: List<Article>) :
     BaseQuickAdapter<Article, CommonArticleAdapter.ViewHolder>(layoutResId, data) {
     override fun convert(helper: ViewHolder, item: Article?) {
-        val title = HtmlCompat.fromHtml(item!!.title!!, FROM_HTML_MODE_LEGACY).toString()
-        val author = item!!.author
+        val title = HtmlCompat.fromHtml(item!!.title, FROM_HTML_MODE_LEGACY).toString()
+        val author = item.author
         var description = item.desc
         if (!TextUtils.isEmpty(description)) {
-            description = HtmlCompat.fromHtml(description!!, FROM_HTML_MODE_LEGACY).toString()
+            description = HtmlCompat.fromHtml(description, FROM_HTML_MODE_LEGACY).toString()
         }
         var category = item.superChapterName + "/" + item.chapterName
         var tags: String
         if (item.tags == null || item.tags!!.isEmpty())
             tags = "分类"
         else {
-            tags = item.tags!![0]!!.name!!
+            tags = item.tags!![0].name
         }
         val time = TimeUtils.timeToString(item.publishTime)
         if (tags == TAG_PROJECT && !TextUtils.isEmpty(item.envelopePic)) {

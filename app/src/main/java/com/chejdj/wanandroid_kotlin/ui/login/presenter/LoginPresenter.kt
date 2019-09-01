@@ -32,7 +32,7 @@ class LoginPresenter(view: LoginContract.View) : LoginContract.Presenter {
                             EventBus.getDefault().post(LoginEvent(accountName))
                         }
                     } else if (!TextUtils.isEmpty(t.errorMsg)) {
-                        view.loginFail(t.errorMsg!!)
+                        view.loginFail(t.errorMsg)
                     }
                 }
 

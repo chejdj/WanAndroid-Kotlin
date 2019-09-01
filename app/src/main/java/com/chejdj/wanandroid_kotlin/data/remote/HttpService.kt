@@ -13,16 +13,14 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Path
-import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by zhuyangyang on 2019-08-12
  */
 object HttpService {
-    private var apiService: ApiService? = null
-    private val baseUrl: String = "https://www.wanandroid.com"
+    private val apiService: ApiService
+    private const val baseUrl: String = "https://www.wanandroid.com"
 
     init {
         val okHttpClient: OkHttpClient =
@@ -35,55 +33,55 @@ object HttpService {
 
 
     fun login(username: String, password: String): Observable<BaseRes<LoginBean>> {
-        return apiService!!.userLogin(username, password)
+        return apiService.userLogin(username, password)
     }
 
     fun getHomeBanner(): Observable<BaseRes<List<HomeBannerBean>>> {
-        return apiService!!.getHomeBanner()
+        return apiService.getHomeBanner()
     }
 
     fun getHomeArticles(pageNum: Int): Observable<BaseRes<ArticleData>> {
-        return apiService!!.getHomeArticles(pageNum)
+        return apiService.getHomeArticles(pageNum)
     }
 
     fun getKnowledgeArchitecture(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
-        return apiService!!.getKnowledgeArchitecture()
+        return apiService.getKnowledgeArchitecture()
     }
 
-    fun getKonwledgeArchitectureDetialArticle(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
-        return apiService!!.getKonwledgeArchitectureDetialArticle(pageNum, cid)
+    fun getKnowledgeArchitectureDetailArticle(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+        return apiService.getKonwledgeArchitectureDetailArticle(pageNum, cid)
     }
 
     fun getHotKeys(): Observable<BaseRes<List<HotKeyBean>>> {
-        return apiService!!.getHotKeys()
+        return apiService.getHotKeys()
     }
 
     fun getSearchResults(pageNum: Int, keywords: String): Observable<BaseRes<ArticleData>> {
-        return apiService!!.getSearchResults(pageNum, keywords)
+        return apiService.getSearchResults(pageNum, keywords)
     }
 
     fun getCollectedArticle(pageNum: Int): Observable<BaseRes<ArticleData>> {
-        return apiService!!.getCollectedArticle(pageNum)
+        return apiService.getCollectedArticle(pageNum)
     }
 
     fun collectArticle(articleId: Int): Observable<BaseRes<ArticleData>> {
-        return apiService!!.collectArticle(articleId)
+        return apiService.collectArticle(articleId)
     }
 
-    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>{
-        return apiService!!.getWechatArticleLists()
+    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+        return apiService.getWechatArticleLists()
     }
 
     fun getWechatChapterArticles(cid: Int, pageNum: Int): Observable<BaseRes<ArticleData>> {
-        return apiService!!.getWechatChapterArticles(cid, pageNum)
+        return apiService.getWechatChapterArticles(cid, pageNum)
     }
 
     fun getProjectSorts(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
-        return apiService!!.getProjectSorts()
+        return apiService.getProjectSorts()
     }
 
     fun getProjectData(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
-        return apiService!!.getProjectData(pageNum, cid)
+        return apiService.getProjectData(pageNum, cid)
     }
 
 }

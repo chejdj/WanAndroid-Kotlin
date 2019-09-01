@@ -70,12 +70,12 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         commonArticleAdapter.setOnItemClickListener { adapter, view, position ->
             if (position < articleList.size) {
                 val article = articleList[position]
-                WebViewActivity.launch(context!!, article.link!!, article.title!!)
+                WebViewActivity.launchWebViewActivity(context!!, article.link!!, article.title!!)
             }
         }
         homeBanner.setOnBannerListener {
             if (it < bannerList.size) {
-                WebViewActivity.launch(context!!, bannerList[it].url!!, bannerList[it].title!!)
+                WebViewActivity.launchWebViewActivity(context!!, bannerList[it].url!!, bannerList[it].title!!)
             }
         }
 

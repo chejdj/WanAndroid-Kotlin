@@ -6,11 +6,11 @@ package com.chejdj.wanandroid_kotlin.data.bean
 class LoginBean {
     private var chapterTops: Array<String>? = null
     private var collectIds: Array<Int>? = null
-    private var email: String? = null
-    private var icon: String? = null
+    private var email: String = ""
+    private var icon: String = ""
     private var id: Long = 0
-    private var username: String? = null
-    private var password: String? = null
-    private var token: String? = null
+    private var username: String = ""
+    private var password: String = ""
+    private var token: String = ""
     private var type: Int = 0
 }

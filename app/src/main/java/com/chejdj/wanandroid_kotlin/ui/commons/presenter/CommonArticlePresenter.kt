@@ -25,7 +25,7 @@ class CommonArticlePresenter(view: CommonArticleContract.View) : CommonArticleCo
                 }
 
                 override fun onNext(t: BaseRes<ArticleData>) {
-                    if (t.errorCode <= 0 && t.data!!.datas != null) {
+                    if (t.errorCode <= 0 && t.data?.datas != null) {
                         view?.showArticleDatas(t.data!!)
                     }
                 }

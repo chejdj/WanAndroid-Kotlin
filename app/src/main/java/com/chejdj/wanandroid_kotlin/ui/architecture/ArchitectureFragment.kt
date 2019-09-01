@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
+import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.SecondaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.ui.architecture.adapter.ArchitectureAdapter
 import com.chejdj.wanandroid_kotlin.ui.architecture.contract.ArchitectureContract
 import com.chejdj.wanandroid_kotlin.ui.architecture.presenter.ArchitecturePresenter
+import com.chejdj.wanandroid_kotlin.ui.architecturedetail.ArchitectureDetailActivity
 import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 
 class ArchitectureFragment : BaseFragment(), ArchitectureContract.View {
@@ -31,6 +33,15 @@ class ArchitectureFragment : BaseFragment(), ArchitectureContract.View {
         recyclerView.adapter = adapter
         presenter = ArchitecturePresenter(this)
         presenter.getArchitectureData()
+        adapter.setOnItemClickListener { adapter, view, position ->
+            if (position < data.size) {
+                ArchitectureDetailActivity.launch(
+                    context!!,
+                    data[position].name,
+                    data[position].children as ArrayList<SecondaryArticleDirectoryBean>
+                )
+            }
+        }
     }
 
     override fun showArchitectureData(data: List<PrimaryArticleDirectoryBean>) {

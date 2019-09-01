@@ -30,7 +30,7 @@ class ProjectPresenter(view: BaseTagFragment) : ProjectContract.Presenter {
                         if (view != null) {
                             for (item in t.data!!) {
                                 cidNumbers.add(item.id)
-                                subTitles.add(item.name!!)
+                                subTitles.add(item.name)
                             }
                             view.showTags(subTitles, cidNumbers)
                         }

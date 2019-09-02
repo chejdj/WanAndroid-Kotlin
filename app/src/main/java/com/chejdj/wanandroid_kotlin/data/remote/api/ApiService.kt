@@ -7,6 +7,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
 /**
@@ -26,7 +27,7 @@ interface ApiService {
      *获取首页banner
      */
     @GET("banner/json")
-    fun getHomeBanner(): Observable<BaseRes<List<HomeBannerBean>>>
+    fun getHomeBanner(): Deferred<BaseRes<List<HomeBannerBean>>>
 
     /**
      *获取首页文章列表

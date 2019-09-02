@@ -8,7 +8,9 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
 import com.chejdj.wanandroid_kotlin.data.remote.cookie.CookieManager
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -27,7 +29,7 @@ object HttpService {
             OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).cookieJar(CookieManager()).build()
         val retrofit: Retrofit =
             Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient).addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+                .addCallAdapterFactory(CoroutineCallAdapterFactory()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
         apiService = retrofit.create(ApiService::class.java)
     }
 
@@ -36,7 +38,7 @@ object HttpService {
         return apiService.userLogin(username, password)
     }
 
-    fun getHomeBanner(): Observable<BaseRes<List<HomeBannerBean>>> {
+    fun getHomeBanner(): Deferred<BaseRes<List<HomeBannerBean>>> {
         return apiService.getHomeBanner()
     }
 

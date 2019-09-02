@@ -6,9 +6,10 @@ import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 
 class HomeModel : HomeContract.Model {
-    override fun getBannerData(): Observable<BaseRes<List<HomeBannerBean>>> {
+    override suspend fun getBannerData(): Deferred<BaseRes<List<HomeBannerBean>>> {
         return DataManager.getHomeBanner()
     }
 

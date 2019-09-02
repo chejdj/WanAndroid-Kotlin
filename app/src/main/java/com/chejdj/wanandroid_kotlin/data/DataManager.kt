@@ -8,6 +8,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.HttpService
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 
 /**
  * Created by zhuyangyang on 2019-08-12
@@ -18,7 +19,7 @@ object DataManager {
         return HttpService.login(username, password)
     }
 
-    fun getHomeBanner(): Observable<BaseRes<List<HomeBannerBean>>> {
+    fun getHomeBanner(): Deferred<BaseRes<List<HomeBannerBean>>> {
         return HttpService.getHomeBanner()
     }
 

@@ -2,7 +2,7 @@ package com.chejdj.wanandroid_kotlin.ui.me.contract
 
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 
 interface MeContract {
     interface View {
@@ -14,6 +14,6 @@ interface MeContract {
     }
 
     interface Model {
-        fun getCollectArticles(pageNum: Int): Observable<BaseRes<ArticleData>>
+        fun getCollectArticles(pageNum: Int): Deferred<BaseRes<ArticleData>>
     }
 }

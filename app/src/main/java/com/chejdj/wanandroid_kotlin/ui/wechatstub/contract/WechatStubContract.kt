@@ -2,7 +2,7 @@ package com.chejdj.wanandroid_kotlin.ui.wechatstub.contract
 
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 
 interface WechatStubContract {
     interface Presenter {
@@ -10,6 +10,6 @@ interface WechatStubContract {
     }
 
     interface Model {
-        fun getWechatChapters(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>
+        fun getWechatChapters(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>>
     }
 }

@@ -9,11 +9,9 @@ import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDire
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
 import com.chejdj.wanandroid_kotlin.data.remote.cookie.CookieManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -29,12 +27,12 @@ object HttpService {
             OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).cookieJar(CookieManager()).build()
         val retrofit: Retrofit =
             Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient).addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(CoroutineCallAdapterFactory()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+                .addCallAdapterFactory(CoroutineCallAdapterFactory()).build()
         apiService = retrofit.create(ApiService::class.java)
     }
 
 
-    fun login(username: String, password: String): Observable<BaseRes<LoginBean>> {
+    fun login(username: String, password: String): Deferred<BaseRes<LoginBean>> {
         return apiService.userLogin(username, password)
     }
 
@@ -42,47 +40,47 @@ object HttpService {
         return apiService.getHomeBanner()
     }
 
-    fun getHomeArticles(pageNum: Int): Observable<BaseRes<ArticleData>> {
+    fun getHomeArticles(pageNum: Int): Deferred<BaseRes<ArticleData>> {
         return apiService.getHomeArticles(pageNum)
     }
 
-    fun getKnowledgeArchitecture(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+    fun getKnowledgeArchitecture(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return apiService.getKnowledgeArchitecture()
     }
 
-    fun getKnowledgeArchitectureDetailArticle(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+    fun getKnowledgeArchitectureDetailArticle(pageNum: Int, cid: Int): Deferred<BaseRes<ArticleData>> {
         return apiService.getKonwledgeArchitectureDetailArticle(pageNum, cid)
     }
 
-    fun getHotKeys(): Observable<BaseRes<List<HotKeyBean>>> {
+    fun getHotKeys(): Deferred<BaseRes<List<HotKeyBean>>> {
         return apiService.getHotKeys()
     }
 
-    fun getSearchResults(pageNum: Int, keywords: String): Observable<BaseRes<ArticleData>> {
+    fun getSearchResults(pageNum: Int, keywords: String): Deferred<BaseRes<ArticleData>> {
         return apiService.getSearchResults(pageNum, keywords)
     }
 
-    fun getCollectedArticle(pageNum: Int): Observable<BaseRes<ArticleData>> {
+    fun getCollectedArticle(pageNum: Int): Deferred<BaseRes<ArticleData>> {
         return apiService.getCollectedArticle(pageNum)
     }
 
-    fun collectArticle(articleId: Int): Observable<BaseRes<ArticleData>> {
+    fun collectArticle(articleId: Int): Deferred<BaseRes<ArticleData>> {
         return apiService.collectArticle(articleId)
     }
 
-    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+    fun getWechatArticleLists(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return apiService.getWechatArticleLists()
     }
 
-    fun getWechatChapterArticles(cid: Int, pageNum: Int): Observable<BaseRes<ArticleData>> {
+    fun getWechatChapterArticles(cid: Int, pageNum: Int): Deferred<BaseRes<ArticleData>> {
         return apiService.getWechatChapterArticles(cid, pageNum)
     }
 
-    fun getProjectSorts(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+    fun getProjectSorts(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return apiService.getProjectSorts()
     }
 
-    fun getProjectData(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+    fun getProjectData(pageNum: Int, cid: Int): Deferred<BaseRes<ArticleData>> {
         return apiService.getProjectData(pageNum, cid)
     }
 

@@ -1,9 +1,8 @@
 package com.chejdj.wanandroid_kotlin.ui.commons.contract
 
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
-import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 
 interface CommonArticleContract {
     interface View {
@@ -11,7 +10,7 @@ interface CommonArticleContract {
     }
 
     interface Model {
-        fun getArticleData(cid: Int, pageCount: Int, type: Int): Observable<BaseRes<ArticleData>>
+        fun getArticleData(cid: Int, pageCount: Int, type: Int): Deferred<BaseRes<ArticleData>>
     }
 
     interface Presenter {

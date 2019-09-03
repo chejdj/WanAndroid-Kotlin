@@ -6,7 +6,6 @@ import com.chejdj.wanandroid_kotlin.data.bean.HotKeyBean
 import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
-import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
@@ -21,7 +20,7 @@ interface ApiService {
      */
     @POST("user/login")
     @FormUrlEncoded
-    fun userLogin(@Field("username") username: String, @Field("password") password: String): Observable<BaseRes<LoginBean>>
+    fun userLogin(@Field("username") username: String, @Field("password") password: String): Deferred<BaseRes<LoginBean>>
 
     /**
      *获取首页banner
@@ -34,13 +33,13 @@ interface ApiService {
      * pageNum: 数据页数
      */
     @GET("article/list/{pageNum}/json")
-    fun getHomeArticles(@Path("pageNum") pageNum: Int): Observable<BaseRes<ArticleData>>
+    fun getHomeArticles(@Path("pageNum") pageNum: Int): Deferred<BaseRes<ArticleData>>
 
     /**
      *获取知识体系信息
      */
     @GET("tree/json")
-    fun getKnowledgeArchitecture(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>
+    fun getKnowledgeArchitecture(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>>
 
     /**
      *获取知识体系下文章详细文章
@@ -48,13 +47,13 @@ interface ApiService {
      * cid: 二级目录的id
      */
     @GET("article/list/{pageNum}/json")
-    fun getKonwledgeArchitectureDetailArticle(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Observable<BaseRes<ArticleData>>
+    fun getKonwledgeArchitectureDetailArticle(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Deferred<BaseRes<ArticleData>>
 
     /**
      * 获取搜索热词
      */
     @GET("hotkey/json")
-    fun getHotKeys(): Observable<BaseRes<List<HotKeyBean>>>
+    fun getHotKeys(): Deferred<BaseRes<List<HotKeyBean>>>
 
     /**
      * 搜索
@@ -63,49 +62,49 @@ interface ApiService {
      */
     @POST("article/query/{pageNum}/json")
     @FormUrlEncoded
-    fun getSearchResults(@Path("pageNum") pageNum: Int, @Field("k") keywords: String): Observable<BaseRes<ArticleData>>
+    fun getSearchResults(@Path("pageNum") pageNum: Int, @Field("k") keywords: String): Deferred<BaseRes<ArticleData>>
 
     /**
      * 获取收藏的文章
      */
     @GET("lg/collect/list/{pageNum}/json")
-    fun getCollectedArticle(@Path("pageNum") pageNum: Int): Observable<BaseRes<ArticleData>>
+    fun getCollectedArticle(@Path("pageNum") pageNum: Int): Deferred<BaseRes<ArticleData>>
 
     /**
      * 收藏站内文章
      */
     @POST("lg/collect/{articleId}/json")
-    fun collectArticle(@Path("articleId") articleId: Int): Observable<BaseRes<ArticleData>>
+    fun collectArticle(@Path("articleId") articleId: Int): Deferred<BaseRes<ArticleData>>
 
     /**
      * 获取微信公众号的列表
      */
     @GET("wxarticle/chapters/json")
-    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>
+    fun getWechatArticleLists(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>>
 
     /**
      * 查看微信公众号历史文章
      */
     @GET("wxarticle/list/{cid}/{pageNum}/json")
-    fun getWechatChapterArticles(@Path("cid") cid: Int, @Path("pageNum") pageNum: Int): Observable<BaseRes<ArticleData>>
+    fun getWechatChapterArticles(@Path("cid") cid: Int, @Path("pageNum") pageNum: Int): Deferred<BaseRes<ArticleData>>
 
     /**
      * 在某个公众号里面搜索历史文章
      */
     @GET("wxarticle/list/{cid}/{pageNum}/json")
-    fun searhArticlesInWechat(@Path("cid") cid: Int, @Path("pageNum") pageNum: Int, @Query("k") keywords: String): Observable<BaseRes<ArticleData>>
+    fun searhArticlesInWechat(@Path("cid") cid: Int, @Path("pageNum") pageNum: Int, @Query("k") keywords: String): Deferred<BaseRes<ArticleData>>
 
     /**
      * 获取项目分类列表
      */
     @GET("project/tree/json")
-    fun getProjectSorts(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>
+    fun getProjectSorts(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>>
 
     /**
      * 获取项目列表数据
      */
     @GET("project/list/{pageNum}/json")
-    fun getProjectData(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Observable<BaseRes<ArticleData>>
+    fun getProjectData(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Deferred<BaseRes<ArticleData>>
 
 
 }

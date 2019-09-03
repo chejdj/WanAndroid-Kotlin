@@ -7,7 +7,6 @@ import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.HttpService
-import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 
 /**
@@ -15,7 +14,7 @@ import kotlinx.coroutines.Deferred
  *
  */
 object DataManager {
-    fun login(username: String, password: String): Observable<BaseRes<LoginBean>> {
+    fun login(username: String, password: String): Deferred<BaseRes<LoginBean>> {
         return HttpService.login(username, password)
     }
 
@@ -23,47 +22,47 @@ object DataManager {
         return HttpService.getHomeBanner()
     }
 
-    fun getHomeArticles(pageNum: Int): Observable<BaseRes<ArticleData>> {
+    fun getHomeArticles(pageNum: Int): Deferred<BaseRes<ArticleData>> {
         return HttpService.getHomeArticles(pageNum)
     }
 
-    fun getKnowledgeArchitecture(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+    fun getKnowledgeArchitecture(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return HttpService.getKnowledgeArchitecture()
     }
 
-    fun getKonwledgeArchitectureDetialArticle(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+    fun getKonwledgeArchitectureDetialArticle(pageNum: Int, cid: Int): Deferred<BaseRes<ArticleData>> {
         return HttpService.getKnowledgeArchitectureDetailArticle(pageNum, cid)
     }
 
-    fun getHotKeys(): Observable<BaseRes<List<HotKeyBean>>> {
+    fun getHotKeys(): Deferred<BaseRes<List<HotKeyBean>>> {
         return HttpService.getHotKeys()
     }
 
-    fun getSearchResults(pageNum: Int, keywords: String): Observable<BaseRes<ArticleData>> {
+    fun getSearchResults(pageNum: Int, keywords: String): Deferred<BaseRes<ArticleData>> {
         return HttpService.getSearchResults(pageNum, keywords)
     }
 
-    fun getCollectedArticle(pageNum: Int): Observable<BaseRes<ArticleData>> {
+    fun getCollectedArticle(pageNum: Int): Deferred<BaseRes<ArticleData>> {
         return HttpService.getCollectedArticle(pageNum)
     }
 
-    fun collectArticle(articleId: Int): Observable<BaseRes<ArticleData>> {
+    fun collectArticle(articleId: Int): Deferred<BaseRes<ArticleData>> {
         return HttpService.collectArticle(articleId)
     }
 
-    fun getWechatArticleLists(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+    fun getWechatArticleLists(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return HttpService.getWechatArticleLists()
     }
 
-    fun getWechatChapterArticles(cid: Int, pageNum: Int): Observable<BaseRes<ArticleData>> {
+    fun getWechatChapterArticles(cid: Int, pageNum: Int): Deferred<BaseRes<ArticleData>> {
         return HttpService.getWechatChapterArticles(cid, pageNum)
     }
 
-    fun getProjectSorts(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>> {
+    fun getProjectSorts(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
         return HttpService.getProjectSorts()
     }
 
-    fun getProjectData(pageNum: Int, cid: Int): Observable<BaseRes<ArticleData>> {
+    fun getProjectData(pageNum: Int, cid: Int): Deferred<BaseRes<ArticleData>> {
         return HttpService.getProjectData(pageNum, cid)
     }
 

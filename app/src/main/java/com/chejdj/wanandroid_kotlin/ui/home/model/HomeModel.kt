@@ -5,7 +5,6 @@ import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
-import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 
 class HomeModel : HomeContract.Model {
@@ -13,7 +12,7 @@ class HomeModel : HomeContract.Model {
         return DataManager.getHomeBanner()
     }
 
-    override fun getArticlesData(pageNum: Int): Observable<BaseRes<ArticleData>> {
+    override fun getArticlesData(pageNum: Int): Deferred<BaseRes<ArticleData>> {
         return DataManager.getHomeArticles(pageNum)
     }
 }

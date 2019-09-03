@@ -2,7 +2,7 @@ package com.chejdj.wanandroid_kotlin.ui.project.contract
 
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 
 interface ProjectContract {
     interface Presenter {
@@ -10,6 +10,6 @@ interface ProjectContract {
     }
 
     interface Model {
-        fun getProjectTags(): Observable<BaseRes<List<PrimaryArticleDirectoryBean>>>
+        fun getProjectTags(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>>
     }
 }

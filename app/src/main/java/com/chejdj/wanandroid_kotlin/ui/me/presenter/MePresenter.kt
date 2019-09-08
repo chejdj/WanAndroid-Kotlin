@@ -7,8 +7,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MePresenter(view: MeContract.View) : MeContract.Presenter {
-    private val view = view
+class MePresenter(private val view: MeContract.View) : MeContract.Presenter {
     private val model = MeModel()
     override fun getCollectArtilces(pageNum: Int) {
         GlobalScope.launch(Dispatchers.Main) {

@@ -8,14 +8,13 @@ import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
-import com.chejdj.wanandroid_kotlin.ui.commons.presenter.CommonArticlePresenter
+import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadViewPagerFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.commons.contract.CommonArticleContract
+import com.chejdj.wanandroid_kotlin.ui.commons.presenter.CommonArticlePresenter
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 
-class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
-
+class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleContract.View {
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CommonArticleAdapter
@@ -40,7 +39,6 @@ class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
         adapter.setEnableLoadMore(true)
         recyclerView.adapter = adapter
         presenter = CommonArticlePresenter(this)
-        presenter.getArticleData(cid, currentPage, type)
         adapter.setOnLoadMoreListener({
             currentPage++
             if (currentPage >= totalPage) {
@@ -52,11 +50,16 @@ class CommonArticleFragment : BaseFragment(), CommonArticleContract.View {
         adapter.setOnItemClickListener { adapter, view, position ->
             if (position < data.size) {
                 val article = data[position]
-                WebViewActivity.launchWebViewActivity(context!!, article.link!!, article.title!!)
+                WebViewActivity.launchWebViewActivity(context!!, article.link, article.title)
             }
         }
 
     }
+
+    override fun loadData() {
+        presenter.getArticleData(cid, currentPage, type)
+    }
+
 
     override fun showArticleDatas(articleData: ArticleData) {
         currentPage = articleData.curPage

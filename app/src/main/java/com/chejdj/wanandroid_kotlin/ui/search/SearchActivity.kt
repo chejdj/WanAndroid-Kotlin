@@ -17,6 +17,7 @@ import com.chejdj.wanandroid_kotlin.ui.base.BaseActivity
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.search.contract.SearchContract
 import com.chejdj.wanandroid_kotlin.ui.search.presenter.SearchPresenter
+import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
@@ -61,6 +62,13 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                 presenter.getSearchResults(currentKeyWords, currentPage)
             }
         }, recyclerView)
+        adapter.setOnItemClickListener { _, _, position ->
+            if (position < articleList.size) {
+                val article = articleList[position]
+                WebViewActivity.launchWebViewActivity(this, article.link, article.title)
+            }
+        }
+
         recyclerView.adapter = adapter
 
     }
@@ -83,10 +91,10 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                 return textView
             }
         }
-        flowLayout.setOnTagClickListener { view, position, parent ->
+        flowLayout.setOnTagClickListener { _, position, _ ->
             currentPage = 0
             totalPage = 0
-            currentKeyWords = hotkeys[position].name!!
+            currentKeyWords = hotkeys[position].name
             presenter.getSearchResults(currentKeyWords, currentPage)
             true
         }

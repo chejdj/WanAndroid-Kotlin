@@ -11,7 +11,7 @@ import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
+import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
 import com.chejdj.wanandroid_kotlin.ui.home.presenter.HomePresenter
@@ -19,8 +19,7 @@ import com.chejdj.wanandroid_kotlin.ui.search.SearchActivity
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 import com.youth.banner.Banner
 
-class HomeFragment : BaseFragment(), HomeContract.View {
-
+class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
     @BindView(R.id.swipe)
@@ -50,9 +49,15 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         commonArticleAdapter.openLoadAnimation()
         commonArticleAdapter.setEnableLoadMore(true)
         recyclerView.adapter = commonArticleAdapter
-
         initListener()
+    }
+
+    override fun loadData() {
         (presenter as HomePresenter).start()
+    }
+
+    override fun isDataEmpty(): Boolean {
+        return articleList.isEmpty()
     }
 
     private fun initListener() {
@@ -70,12 +75,12 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         commonArticleAdapter.setOnItemClickListener { adapter, view, position ->
             if (position < articleList.size) {
                 val article = articleList[position]
-                WebViewActivity.launchWebViewActivity(context!!, article.link!!, article.title!!)
+                WebViewActivity.launchWebViewActivity(context!!, article.link, article.title)
             }
         }
         homeBanner.setOnBannerListener {
             if (it < bannerList.size) {
-                WebViewActivity.launchWebViewActivity(context!!, bannerList[it].url!!, bannerList[it].title!!)
+                WebViewActivity.launchWebViewActivity(context!!, bannerList[it].url, bannerList[it].title)
             }
         }
 

@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock
  * Created by zhuyangyang on 2019-08-13
  */
 class DiskCookieStore(context: Context) {
-    private val FILE_NAME = "cookies"
+    private val FILE_NAME: String = "cookies"
     private val COOKIE_NAME_PREFIX = "cookie_"
     private var cookieStore: HashMap<String, ConcurrentHashMap<String, Cookie>> = HashMap()
     private var preferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
@@ -31,7 +31,7 @@ class DiskCookieStore(context: Context) {
                 for (name in cookiesName) {
                     val json = prefersMap[COOKIE_NAME_PREFIX + name] as String
                     if (!TextUtils.isEmpty(json)) {
-                        val cookie = GsonUtils.fromJsonIgnoreException(json!!, Cookie::class.java)
+                        val cookie = GsonUtils.fromJsonIgnoreException(json, Cookie::class.java)
                         if (cookie != null) {
                             if (!cookieStore.containsKey(key)) {
                                 cookieStore[key] = ConcurrentHashMap()

@@ -7,8 +7,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SearchPresenter(view: SearchContract.View) : SearchContract.Presenter {
-    private val view = view
+class SearchPresenter(private val view: SearchContract.View) : SearchContract.Presenter {
     private val model = SearchModel()
     override fun getHotKeys() {
         GlobalScope.launch(Dispatchers.Main) {

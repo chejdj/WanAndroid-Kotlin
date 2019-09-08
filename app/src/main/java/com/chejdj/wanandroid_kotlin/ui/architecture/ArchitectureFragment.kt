@@ -10,9 +10,9 @@ import com.chejdj.wanandroid_kotlin.ui.architecture.adapter.ArchitectureAdapter
 import com.chejdj.wanandroid_kotlin.ui.architecture.contract.ArchitectureContract
 import com.chejdj.wanandroid_kotlin.ui.architecture.presenter.ArchitecturePresenter
 import com.chejdj.wanandroid_kotlin.ui.architecturedetail.ArchitectureDetailActivity
-import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
+import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadFragment
 
-class ArchitectureFragment : BaseFragment(), ArchitectureContract.View {
+class ArchitectureFragment : BaseLazyLoadFragment(), ArchitectureContract.View {
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
     private val data: List<PrimaryArticleDirectoryBean> = ArrayList()
@@ -32,7 +32,6 @@ class ArchitectureFragment : BaseFragment(), ArchitectureContract.View {
         adapter.openLoadAnimation()
         recyclerView.adapter = adapter
         presenter = ArchitecturePresenter(this)
-        presenter.getArchitectureData()
         adapter.setOnItemClickListener { adapter, view, position ->
             if (position < data.size) {
                 ArchitectureDetailActivity.launch(
@@ -42,6 +41,14 @@ class ArchitectureFragment : BaseFragment(), ArchitectureContract.View {
                 )
             }
         }
+    }
+
+    override fun loadData() {
+        presenter.getArchitectureData()
+    }
+
+    override fun isDataEmpty(): Boolean {
+        return data.isEmpty()
     }
 
     override fun showArchitectureData(data: List<PrimaryArticleDirectoryBean>) {

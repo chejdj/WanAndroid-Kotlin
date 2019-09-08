@@ -32,6 +32,7 @@ class MainActivity : BaseActivity() {
             .add(R.id.content, fragmentList[2])
             .add(R.id.content, fragmentList[3])
             .add(R.id.content, fragmentList[4])
+            .hide(fragmentList[0])
             .hide(fragmentList[1])
             .hide(fragmentList[2])
             .hide(fragmentList[3])

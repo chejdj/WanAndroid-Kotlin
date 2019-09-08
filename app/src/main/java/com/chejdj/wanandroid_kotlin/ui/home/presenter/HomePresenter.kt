@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 
 class HomePresenter(private var view: HomeContract.View?) : HomeContract.Presenter {
     private val model: HomeContract.Model
-    private val TAG: String = "HomePresenter"
 
     init {
         this.model = HomeModel()

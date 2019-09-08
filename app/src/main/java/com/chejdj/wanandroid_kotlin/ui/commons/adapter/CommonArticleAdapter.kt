@@ -22,12 +22,11 @@ class CommonArticleAdapter(layoutResId: Int, data: List<Article>) :
         if (!TextUtils.isEmpty(description)) {
             description = HtmlCompat.fromHtml(description, FROM_HTML_MODE_LEGACY).toString()
         }
-        var category = item.superChapterName + "/" + item.chapterName
-        var tags: String
-        if (item.tags == null || item.tags!!.isEmpty())
-            tags = "分类"
+        val category = item.superChapterName + "/" + item.chapterName
+        val tags = if (item.tags == null || item.tags!!.isEmpty())
+            "分类"
         else {
-            tags = item.tags!![0].name
+            item.tags!![0].name
         }
         val time = TimeUtils.timeToString(item.publishTime)
         if (tags == TAG_PROJECT && !TextUtils.isEmpty(item.envelopePic)) {

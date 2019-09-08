@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 
-class LoginPresenter(view: LoginContract.View) : LoginContract.Presenter {
-    private val view = view
+class LoginPresenter(private val view: LoginContract.View) : LoginContract.Presenter {
     private val model = LoginModel()
     override fun login(accountName: String, password: String) {
         GlobalScope.launch(Dispatchers.Main) {
@@ -19,7 +18,7 @@ class LoginPresenter(view: LoginContract.View) : LoginContract.Presenter {
                 view.loginSuccessful(accountName)
                 EventBus.getDefault().post(LoginEvent(accountName))
             } else {
-                view?.loginFail(result.errorMsg)
+                view.loginFail(result.errorMsg)
             }
         }
     }

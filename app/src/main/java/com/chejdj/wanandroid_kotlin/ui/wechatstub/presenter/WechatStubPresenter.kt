@@ -9,8 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class WechatStubPresenter(view: BaseTagFragment) : WechatStubContract.Presenter {
-    private var view = view
+class WechatStubPresenter(private var view: BaseTagFragment) : WechatStubContract.Presenter {
     private var model = WechatStubModel()
     private val cidNumbers = ArrayList<Int>()
     private val subTitles = ArrayList<String>()

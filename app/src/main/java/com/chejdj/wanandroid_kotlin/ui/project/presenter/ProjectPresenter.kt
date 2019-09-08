@@ -8,8 +8,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ProjectPresenter(view: BaseTagFragment) : ProjectContract.Presenter {
-    private val view: BaseTagFragment = view
+class ProjectPresenter(private val view: BaseTagFragment) : ProjectContract.Presenter {
     private val model = ProjectModel()
     private val cidNumbers = ArrayList<Int>()
     private val subTitles = ArrayList<String>()

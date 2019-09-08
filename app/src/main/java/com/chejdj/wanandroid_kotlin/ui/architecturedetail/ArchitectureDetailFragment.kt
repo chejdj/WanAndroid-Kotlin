@@ -9,6 +9,10 @@ import com.chejdj.wanandroid_kotlin.ui.base.BaseTagFragment
 import java.util.*
 
 class ArchitectureDetailFragment : BaseTagFragment() {
+    override fun loadData() {
+        //nothing
+    }
+
     @BindView(R.id.back)
     lateinit var backIv: ImageView
 

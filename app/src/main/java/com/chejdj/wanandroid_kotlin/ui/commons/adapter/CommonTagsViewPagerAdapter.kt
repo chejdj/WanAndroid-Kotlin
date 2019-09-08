@@ -10,15 +10,12 @@ import com.chejdj.wanandroid_kotlin.ui.commons.CommonArticleFragment
  * ViewPager的公用Adapter
  */
 class CommonTagsViewPagerAdapter(
-    subTitles: List<String>,
-    cidNumbers: List<Int>,
-    type: Int,
+    private val subTitles: List<String>,
+    private val cidNumbers: List<Int>,
+    private val type: Int,
     fragmentManager: FragmentManager
 ) :
     FragmentStatePagerAdapter(fragmentManager) {
-    private val subTitles = subTitles
-    private val cidNumbers = cidNumbers
-    private val type = type
 
     override fun getItem(p0: Int): Fragment {
         return CommonArticleFragment.getCommonArticleFragment(cidNumbers[p0], type)

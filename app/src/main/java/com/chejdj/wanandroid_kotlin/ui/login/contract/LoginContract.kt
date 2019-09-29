@@ -2,7 +2,6 @@ package com.chejdj.wanandroid_kotlin.ui.login.contract
 
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
-import kotlinx.coroutines.Deferred
 
 interface LoginContract {
     interface View {
@@ -15,6 +14,6 @@ interface LoginContract {
     }
 
     interface Model {
-        fun login(accountName: String, password: String): Deferred<BaseRes<LoginBean>>
+        suspend fun login(accountName: String, password: String): BaseRes<LoginBean>
     }
 }

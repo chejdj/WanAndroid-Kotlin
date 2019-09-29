@@ -31,7 +31,7 @@ class ArchitectureFragment : BaseLazyLoadFragment(), ArchitectureContract.View {
             ArchitectureAdapter(R.layout.item_architecture, data)
         adapter.openLoadAnimation()
         recyclerView.adapter = adapter
-        presenter = ArchitecturePresenter(this)
+        presenter = ArchitecturePresenter(this, this)
         adapter.setOnItemClickListener { adapter, view, position ->
             if (position < data.size) {
                 ArchitectureDetailActivity.launch(

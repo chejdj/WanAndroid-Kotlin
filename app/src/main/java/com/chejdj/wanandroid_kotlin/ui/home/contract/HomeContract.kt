@@ -3,7 +3,6 @@ package com.chejdj.wanandroid_kotlin.ui.home.contract
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import kotlinx.coroutines.Deferred
 
 interface HomeContract {
     interface View {
@@ -17,7 +16,7 @@ interface HomeContract {
     }
 
     interface Model {
-        suspend fun getBannerData(): Deferred<BaseRes<List<HomeBannerBean>>>
-        fun getArticlesData(pageNum: Int): Deferred<BaseRes<ArticleData>>
+        suspend fun getBannerData(): BaseRes<List<HomeBannerBean>>
+        suspend fun getArticlesData(pageNum: Int): BaseRes<ArticleData>
     }
 }

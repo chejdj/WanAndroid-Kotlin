@@ -10,10 +10,10 @@ interface MeContract {
     }
 
     interface Presenter {
-        fun getCollectArtilces(pageNum: Int)
+        fun getCollectArticles(pageNum: Int)
     }
 
     interface Model {
-        fun getCollectArticles(pageNum: Int): Deferred<BaseRes<ArticleData>>
+        suspend fun getCollectArticles(pageNum: Int): BaseRes<ArticleData>
     }
 }

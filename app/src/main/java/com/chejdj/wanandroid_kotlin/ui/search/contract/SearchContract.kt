@@ -3,7 +3,6 @@ package com.chejdj.wanandroid_kotlin.ui.search.contract
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.HotKeyBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import kotlinx.coroutines.Deferred
 
 interface SearchContract {
     interface View {
@@ -17,7 +16,7 @@ interface SearchContract {
     }
 
     interface Model {
-        fun getHotKeys(): Deferred<BaseRes<List<HotKeyBean>>>
-        fun getSearchResults(key: String, pageNum: Int): Deferred<BaseRes<ArticleData>>
+        suspend fun getHotKeys(): BaseRes<List<HotKeyBean>>
+        suspend fun getSearchResults(key: String, pageNum: Int): BaseRes<ArticleData>
     }
 }

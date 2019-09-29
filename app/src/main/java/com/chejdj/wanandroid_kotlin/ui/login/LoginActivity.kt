@@ -45,7 +45,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     override fun initView() {
-        presenter = LoginPresenter(this)
+        presenter = LoginPresenter(this, this)
     }
 
     @OnClick(R.id.login)

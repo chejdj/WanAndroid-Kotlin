@@ -33,7 +33,7 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
     private lateinit var homeBanner: Banner
 
     override fun initView() {
-        presenter = HomePresenter(this)
+        presenter = HomePresenter(this, this)
         val layoutManager = LinearLayoutManager(this.context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
@@ -80,7 +80,11 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
         }
         homeBanner.setOnBannerListener {
             if (it < bannerList.size) {
-                WebViewActivity.launchWebViewActivity(context!!, bannerList[it].url, bannerList[it].title)
+                WebViewActivity.launchWebViewActivity(
+                    context!!,
+                    bannerList[it].url,
+                    bannerList[it].title
+                )
             }
         }
 

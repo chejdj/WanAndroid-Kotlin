@@ -1,13 +1,17 @@
 package com.chejdj.wanandroid_kotlin.ui.home.presenter
 
+import android.util.Log
+import com.chejdj.wanandroid_kotlin.commons.ERROR
+import com.chejdj.wanandroid_kotlin.data.remote.executeResponse
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
 import com.chejdj.wanandroid_kotlin.ui.home.model.HomeModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomePresenter(private var view: HomeContract.View?) : HomeContract.Presenter {
+class HomePresenter(private var view: HomeContract.View?, private val scope: CoroutineScope) :
+    HomeContract.Presenter, CoroutineScope by scope {
     private val model: HomeContract.Model
 
     init {
@@ -20,21 +24,21 @@ class HomePresenter(private var view: HomeContract.View?) : HomeContract.Present
     }
 
     override fun getBannerData() {
-        GlobalScope.launch(Dispatchers.Main) {
-            val result = withContext(Dispatchers.IO) { model.getBannerData().await() }
-            if (result.errorCode == 0) {
+        launch {
+            val result = withContext(Dispatchers.IO) { model.getBannerData() }
+            executeResponse(result, {
                 view?.showBannerData(result.data)
-            }
+            }, { Log.d(ERROR, "getBannerData fail") })
         }
     }
 
     override fun getArticlesData(pageNum: Int) {
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val result = withContext(Dispatchers.IO) { model.getArticlesData(pageNum).await() }
-            if (result.errorCode == 0) {
+        launch {
+            val result = withContext(Dispatchers.IO) { model.getArticlesData(pageNum) }
+            executeResponse(result, {
                 view?.showArticlesData(result.data)
-            }
+            }, { Log.d(ERROR, "getArticlesData fail") })
         }
     }
 

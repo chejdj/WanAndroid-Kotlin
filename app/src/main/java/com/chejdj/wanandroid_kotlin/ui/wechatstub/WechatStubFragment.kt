@@ -6,7 +6,7 @@ import com.chejdj.wanandroid_kotlin.ui.wechatstub.presenter.WechatStubPresenter
 
 class WechatStubFragment : BaseTagFragment() {
     override fun loadData() {
-        val presenter = WechatStubPresenter(this)
+        val presenter = WechatStubPresenter(this, this)
         presenter.getWechatChapters()
     }
 

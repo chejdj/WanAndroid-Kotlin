@@ -6,7 +6,7 @@ import com.chejdj.wanandroid_kotlin.ui.project.presenter.ProjectPresenter
 
 class ProjectFragment : BaseTagFragment() {
     override fun loadData() {
-        val presenter = ProjectPresenter(this)
+        val presenter = ProjectPresenter(this, this)
         presenter.getProjectTags()
     }
 

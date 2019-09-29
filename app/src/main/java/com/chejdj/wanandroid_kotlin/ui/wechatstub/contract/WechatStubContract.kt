@@ -10,6 +10,6 @@ interface WechatStubContract {
     }
 
     interface Model {
-        fun getWechatChapters(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>>
+        suspend fun getWechatChapters(): BaseRes<List<PrimaryArticleDirectoryBean>>
     }
 }

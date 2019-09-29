@@ -48,7 +48,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     }
 
     override fun initView() {
-        presenter = SearchPresenter(this)
+        presenter = SearchPresenter(this, this)
         presenter.getHotKeys()
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = CommonArticleAdapter(R.layout.item_article, articleList)
@@ -86,7 +86,11 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         flowLayout.adapter = object : TagAdapter<HotKeyBean>(hotkeys) {
             override fun getView(parent: FlowLayout?, position: Int, t: HotKeyBean?): View {
                 val textView: TextView =
-                    LayoutInflater.from(parent?.context).inflate(R.layout.item_tags, parent, false) as TextView
+                    LayoutInflater.from(parent?.context).inflate(
+                        R.layout.item_tags,
+                        parent,
+                        false
+                    ) as TextView
                 textView.text = t!!.name
                 return textView
             }

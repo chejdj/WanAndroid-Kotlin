@@ -38,7 +38,7 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
         adapter.openLoadAnimation()
         adapter.setEnableLoadMore(true)
         recyclerView.adapter = adapter
-        presenter = CommonArticlePresenter(this)
+        presenter = CommonArticlePresenter(this,this)
         adapter.setOnLoadMoreListener({
             currentPage++
             if (currentPage >= totalPage) {

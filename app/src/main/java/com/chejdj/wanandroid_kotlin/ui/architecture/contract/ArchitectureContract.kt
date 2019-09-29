@@ -17,6 +17,6 @@ interface ArchitectureContract {
     }
 
     interface Model {
-        fun getArchitectureData(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>>
+        suspend fun getArchitectureData(): BaseRes<List<PrimaryArticleDirectoryBean>>
     }
 }

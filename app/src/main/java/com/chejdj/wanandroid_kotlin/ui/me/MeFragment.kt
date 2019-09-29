@@ -57,7 +57,8 @@ class MeFragment : BaseFragment(), MeContract.View {
         }
         toolbar.title = AccountManager.accountName
 
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         adapter = CommonArticleAdapter(R.layout.item_article, articleData)
 
@@ -66,7 +67,7 @@ class MeFragment : BaseFragment(), MeContract.View {
         adapter.setOnLoadMoreListener({
             currentPage++
             if (currentPage < totalPage) {
-                presenter.getCollectArtilces(currentPage)
+                presenter.getCollectArticles(currentPage)
             } else {
                 adapter.loadMoreEnd()
             }
@@ -76,8 +77,8 @@ class MeFragment : BaseFragment(), MeContract.View {
         recyclerView.adapter = adapter
 
 
-        presenter = MePresenter(this)
-        presenter.getCollectArtilces(currentPage)
+        presenter = MePresenter(this, this)
+        presenter.getCollectArticles(currentPage)
 
     }
 
@@ -92,18 +93,19 @@ class MeFragment : BaseFragment(), MeContract.View {
             val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
         } else {
-            val dialog = AlertDialog.Builder(context, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
-                .setCancelable(true)
-                .setNegativeButton("OK") { dialog, which ->
-                    dialog?.dismiss()
-                    toolbar.title = "Login"
-                    scrollView.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
-                    AccountManager.clearAccount()
-                }
-                .setPositiveButton("No,No,No") { dialog, which ->
-                    dialog?.dismiss()
-                }.setMessage(StringUtils.getString(R.string.logout_warning)).create()
+            val dialog =
+                AlertDialog.Builder(context, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
+                    .setCancelable(true)
+                    .setNegativeButton("OK") { dialog, which ->
+                        dialog?.dismiss()
+                        toolbar.title = "Login"
+                        scrollView.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                        AccountManager.clearAccount()
+                    }
+                    .setPositiveButton("No,No,No") { dialog, which ->
+                        dialog?.dismiss()
+                    }.setMessage(StringUtils.getString(R.string.logout_warning)).create()
             dialog.show()
         }
     }

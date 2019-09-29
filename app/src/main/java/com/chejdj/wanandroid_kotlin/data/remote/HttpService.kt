@@ -9,7 +9,6 @@ import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDire
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
 import com.chejdj.wanandroid_kotlin.data.remote.cookie.CookieManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,64 +23,77 @@ object HttpService {
 
     init {
         val okHttpClient: OkHttpClient =
-            OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).cookieJar(CookieManager()).build()
+            OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).cookieJar(CookieManager())
+                .build()
         val retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient).addConverterFactory(GsonConverterFactory.create())
+            Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory()).build()
         apiService = retrofit.create(ApiService::class.java)
     }
 
 
-    fun login(username: String, password: String): Deferred<BaseRes<LoginBean>> {
-        return apiService.userLogin(username, password)
+    suspend fun login(username: String, password: String): BaseRes<LoginBean> {
+        return apiService.userLogin(username, password).await()
     }
 
-    fun getHomeBanner(): Deferred<BaseRes<List<HomeBannerBean>>> {
-        return apiService.getHomeBanner()
+    suspend fun getHomeBanner(): BaseRes<List<HomeBannerBean>> {
+        return apiService.getHomeBanner().await()
     }
 
-    fun getHomeArticles(pageNum: Int): Deferred<BaseRes<ArticleData>> {
-        return apiService.getHomeArticles(pageNum)
+    suspend fun getHomeArticles(pageNum: Int): BaseRes<ArticleData> {
+        return apiService.getHomeArticles(pageNum).await()
     }
 
-    fun getKnowledgeArchitecture(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
-        return apiService.getKnowledgeArchitecture()
+    suspend fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>> {
+        return apiService.getKnowledgeArchitecture().await()
     }
 
-    fun getKnowledgeArchitectureDetailArticle(pageNum: Int, cid: Int): Deferred<BaseRes<ArticleData>> {
-        return apiService.getKonwledgeArchitectureDetailArticle(pageNum, cid)
+    suspend fun getKnowledgeArchitectureDetailArticle(
+        pageNum: Int,
+        cid: Int
+    ): BaseRes<ArticleData> {
+        return apiService.getKonwledgeArchitectureDetailArticle(pageNum, cid).await()
     }
 
-    fun getHotKeys(): Deferred<BaseRes<List<HotKeyBean>>> {
-        return apiService.getHotKeys()
+    suspend fun getHotKeys(): BaseRes<List<HotKeyBean>> {
+        return apiService.getHotKeys().await()
     }
 
-    fun getSearchResults(pageNum: Int, keywords: String): Deferred<BaseRes<ArticleData>> {
-        return apiService.getSearchResults(pageNum, keywords)
+    suspend fun getSearchResults(pageNum: Int, keywords: String): BaseRes<ArticleData> {
+        return apiService.getSearchResults(pageNum, keywords).await()
     }
 
-    fun getCollectedArticle(pageNum: Int): Deferred<BaseRes<ArticleData>> {
-        return apiService.getCollectedArticle(pageNum)
+    suspend fun getCollectedArticle(pageNum: Int): BaseRes<ArticleData> {
+        return apiService.getCollectedArticle(pageNum).await()
     }
 
-    fun collectArticle(articleId: Int): Deferred<BaseRes<ArticleData>> {
-        return apiService.collectArticle(articleId)
+    suspend fun collectArticle(articleId: Int): BaseRes<ArticleData> {
+        return apiService.collectArticle(articleId).await()
     }
 
-    fun getWechatArticleLists(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
-        return apiService.getWechatArticleLists()
+    suspend fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>> {
+        return apiService.getWechatArticleLists().await()
     }
 
-    fun getWechatChapterArticles(cid: Int, pageNum: Int): Deferred<BaseRes<ArticleData>> {
-        return apiService.getWechatChapterArticles(cid, pageNum)
+    suspend fun getWechatChapterArticles(cid: Int, pageNum: Int): BaseRes<ArticleData> {
+        return apiService.getWechatChapterArticles(cid, pageNum).await()
     }
 
-    fun getProjectSorts(): Deferred<BaseRes<List<PrimaryArticleDirectoryBean>>> {
-        return apiService.getProjectSorts()
+    suspend fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>> {
+        return apiService.getProjectSorts().await()
     }
 
-    fun getProjectData(pageNum: Int, cid: Int): Deferred<BaseRes<ArticleData>> {
-        return apiService.getProjectData(pageNum, cid)
+    suspend fun getProjectData(pageNum: Int, cid: Int): BaseRes<ArticleData> {
+        return apiService.getProjectData(pageNum, cid).await()
     }
+}
 
+fun executeResponse(
+    response: BaseRes<out Any>,
+    successBlock: () -> Unit,
+    errorBlock: () -> Unit
+) {
+    if (response.errorCode == 0) successBlock.invoke()
+    else errorBlock.invoke()
 }

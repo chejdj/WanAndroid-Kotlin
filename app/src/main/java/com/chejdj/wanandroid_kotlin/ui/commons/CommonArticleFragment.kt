@@ -1,9 +1,9 @@
 package com.chejdj.wanandroid_kotlin.ui.commons
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
@@ -33,24 +33,25 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
         val bundle = arguments
         cid = bundle!!.getInt(CID)
         type = bundle.getInt(TYPE)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        adapter = CommonArticleAdapter(R.layout.item_article, data)
-        adapter.openLoadAnimation()
-        adapter.setEnableLoadMore(true)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter = CommonArticleAdapter(data)
+//        adapter.openLoadAnimation()
+//        adapter.setEnableLoadMore(true)
         recyclerView.adapter = adapter
-        presenter = CommonArticlePresenter(this,this)
-        adapter.setOnLoadMoreListener({
-            currentPage++
-            if (currentPage >= totalPage) {
-                adapter.loadMoreEnd()
-            } else {
-                presenter.getArticleData(cid, currentPage, type)
-            }
-        }, recyclerView)
-        adapter.setOnItemClickListener { adapter, view, position ->
+        presenter = CommonArticlePresenter(this, this)
+//        adapter.setOnLoadMoreListener({
+//            currentPage++
+//            if (currentPage >= totalPage) {
+//                adapter.loadMoreEnd()
+//            } else {
+//                presenter.getArticleData(cid, currentPage, type)
+//            }
+//        }, recyclerView)
+        adapter.setOnItemClickListener { _, _, position ->
             if (position < data.size) {
                 val article = data[position]
-                WebViewActivity.launchWebViewActivity(context!!, article.link, article.title)
+                WebViewActivity.launchWebViewActivity(requireContext(), article.link, article.title)
             }
         }
 
@@ -61,14 +62,14 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
     }
 
 
-    override fun showArticleDatas(articleData: ArticleData) {
-        currentPage = articleData.curPage
-        totalPage = articleData.pageCount
-        adapter.loadMoreComplete()
+    override fun showArticleDatas(data: ArticleData) {
+        currentPage = data.curPage
+        totalPage = data.pageCount
+//        adapter.loadMoreComplete()
         if (currentPage == 0) {
-            data.clear()
+            this.data.clear()
         }
-        adapter.addData(articleData.datas!!)
+        adapter.addData(data.datas!!)
     }
 
     companion object {

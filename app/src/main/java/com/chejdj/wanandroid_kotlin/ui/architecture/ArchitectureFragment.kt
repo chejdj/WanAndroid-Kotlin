@@ -1,7 +1,7 @@
 package com.chejdj.wanandroid_kotlin.ui.architecture
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
@@ -15,7 +15,7 @@ import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadFragment
 class ArchitectureFragment : BaseLazyLoadFragment(), ArchitectureContract.View {
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
-    private val data: List<PrimaryArticleDirectoryBean> = ArrayList()
+    private val data: MutableList<PrimaryArticleDirectoryBean> = ArrayList()
     private lateinit var adapter: ArchitectureAdapter
     private lateinit var presenter: ArchitectureContract.Presenter
 
@@ -29,13 +29,12 @@ class ArchitectureFragment : BaseLazyLoadFragment(), ArchitectureContract.View {
         recyclerView.layoutManager = linearLayoutManager
         adapter =
             ArchitectureAdapter(R.layout.item_architecture, data)
-        adapter.openLoadAnimation()
         recyclerView.adapter = adapter
         presenter = ArchitecturePresenter(this, this)
-        adapter.setOnItemClickListener { adapter, view, position ->
+        adapter.setOnItemClickListener { _, _, position ->
             if (position < data.size) {
                 ArchitectureDetailActivity.launch(
-                    context!!,
+                    requireContext(),
                     data[position].name,
                     data[position].children as ArrayList<SecondaryArticleDirectoryBean>
                 )

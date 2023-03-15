@@ -1,7 +1,6 @@
 package com.chejdj.wanandroid_kotlin.ui
 
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.ui.architecture.ArchitectureFragment
@@ -10,6 +9,8 @@ import com.chejdj.wanandroid_kotlin.ui.home.HomeFragment
 import com.chejdj.wanandroid_kotlin.ui.me.MeFragment
 import com.chejdj.wanandroid_kotlin.ui.project.ProjectFragment
 import com.chejdj.wanandroid_kotlin.ui.wechatstub.WechatStubFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : BaseActivity() {
     @BindView(R.id.navigate)
@@ -40,8 +41,8 @@ class MainActivity : BaseActivity() {
             .show(fragmentList[0])
             .commit()
         lastFragment = 0
-        navigate.labelVisibilityMode = 1
-        navigate.setOnNavigationItemSelectedListener {
+        navigate.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_SELECTED
+        navigate.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
                     if (lastFragment != 0) {
@@ -76,7 +77,6 @@ class MainActivity : BaseActivity() {
             }
             true
         }
-
     }
 
     private fun showNextFragment(lastFragment: Int, currentFragment: Int) {

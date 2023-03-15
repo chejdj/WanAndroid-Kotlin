@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,10 +24,10 @@
                 android:id="@+id/project_image"
                 android:layout_width="40dp"
                 android:layout_height="80dp"
-                android:contentDescription="@string/project_image"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="20dp"
-                android:visibility="gone"/>
+                android:contentDescription="@string/project_image"
+                android:visibility="gone" />
 
         <TextView
                 android:id="@+id/title"
@@ -38,7 +37,7 @@
                 android:layout_toStartOf="@id/project_image"
                 android:text="hello"
                 android:textColor="@color/black"
-                android:textSize="@dimen/article_title_tx"/>
+                android:textSize="@dimen/article_title_tx" />
 
         <TextView
                 android:id="@+id/description"
@@ -50,7 +49,7 @@
                 android:layout_toStartOf="@id/project_image"
                 android:maxLines="3"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/article_description_tx"/>
+                android:textSize="@dimen/article_description_tx" />
 
         <TextView
                 android:id="@+id/time"
@@ -63,7 +62,7 @@
                 android:drawablePadding="4dp"
                 android:text="2019=02-18"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/article_time_tx"/>
+                android:textSize="@dimen/article_time_tx" />
 
         <TextView
                 android:id="@+id/author"
@@ -75,7 +74,7 @@
                 android:layout_toEndOf="@id/time"
                 android:text="\@郭霖"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/article_author_tx"/>
+                android:textSize="@dimen/article_author_tx" />
 
         <TextView
                 android:id="@+id/tags"
@@ -87,7 +86,7 @@
                 android:padding="2dp"
                 android:text="公众号"
                 android:textColor="@color/green"
-                android:textSize="@dimen/article_tags_tx"/>
+                android:textSize="@dimen/article_tags_tx" />
 
         <TextView
                 android:id="@+id/category"
@@ -99,6 +98,6 @@
                 android:layout_toEndOf="@id/tags"
                 android:text="公众号/郭霖"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/article_category_tx"/>
+                android:textSize="@dimen/article_category_tx" />
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

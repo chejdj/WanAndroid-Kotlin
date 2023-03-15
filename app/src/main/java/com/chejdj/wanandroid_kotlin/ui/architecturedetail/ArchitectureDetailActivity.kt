@@ -18,8 +18,8 @@ class ArchitectureDetailActivity : BaseActivity() {
     }
 
     override fun initView() {
-        title = intent.getStringExtra(TITLE)
-        data = intent.getParcelableArrayListExtra(SECOND_DIRECTORY)
+        title = intent.getStringExtra(TITLE).toString()
+        data = intent.getParcelableArrayListExtra(SECOND_DIRECTORY)!!
         val architectureDetailFragment = ArchitectureDetailFragment()
         val fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction().add(R.id.frameLayout, architectureDetailFragment)
@@ -38,7 +38,11 @@ class ArchitectureDetailActivity : BaseActivity() {
     companion object {
         private const val TITLE: String = "title"
         private const val SECOND_DIRECTORY = "second_directory"
-        fun launch(context: Context, title: String, data: ArrayList<SecondaryArticleDirectoryBean>) {
+        fun launch(
+            context: Context,
+            title: String,
+            data: ArrayList<SecondaryArticleDirectoryBean>
+        ) {
             val intent = Intent(context, ArchitectureDetailActivity::class.java)
             intent.putExtra(TITLE, title)
             intent.putParcelableArrayListExtra(SECOND_DIRECTORY, data)

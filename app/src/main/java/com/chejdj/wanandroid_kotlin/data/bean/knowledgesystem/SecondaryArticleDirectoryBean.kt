@@ -33,7 +33,7 @@ class SecondaryArticleDirectoryBean() : Parcelable {
     constructor(parcel: Parcel) : this() {
         courseId = parcel.readInt()
         id = parcel.readInt()
-        name = parcel.readString()
+        name = parcel.readString().toString()
         order = parcel.readInt()
         parentChapterId = parcel.readInt()
         userControlSetTop = parcel.readByte() != 0.toByte()

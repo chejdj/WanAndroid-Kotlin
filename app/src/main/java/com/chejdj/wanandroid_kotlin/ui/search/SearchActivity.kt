@@ -55,16 +55,15 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         presenter.getHotKeys()
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = CommonArticleAdapter(articleList)
-//        adapter.openLoadAnimation()
-//        adapter.setEnableLoadMore(true)
-//        adapter.setOnLoadMoreListener({
-//            currentPage++
-//            if (currentPage > totalPage) {
-//                adapter.loadMoreEnd()
-//            } else {
-//                presenter.getSearchResults(currentKeyWords, currentPage)
-//            }
-//        }, recyclerView)
+        adapter.animationEnable = true
+        adapter.loadMoreModule.setOnLoadMoreListener {
+            currentPage++
+            if (currentPage > totalPage) {
+                adapter.loadMoreModule.loadMoreEnd()
+            } else {
+                presenter.getSearchResults(currentKeyWords, currentPage)
+            }
+        }
         adapter.setOnItemClickListener { _, _, position ->
             if (position < articleList.size) {
                 val article = articleList[position]

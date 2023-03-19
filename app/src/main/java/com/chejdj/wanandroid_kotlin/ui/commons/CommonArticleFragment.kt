@@ -36,18 +36,17 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         adapter = CommonArticleAdapter(data)
-//        adapter.openLoadAnimation()
-//        adapter.setEnableLoadMore(true)
+        adapter.animationEnable = true
         recyclerView.adapter = adapter
         presenter = CommonArticlePresenter(this, this)
-//        adapter.setOnLoadMoreListener({
-//            currentPage++
-//            if (currentPage >= totalPage) {
-//                adapter.loadMoreEnd()
-//            } else {
-//                presenter.getArticleData(cid, currentPage, type)
-//            }
-//        }, recyclerView)
+        adapter.loadMoreModule.setOnLoadMoreListener {
+            currentPage++
+            if (currentPage >= totalPage) {
+                adapter.loadMoreModule.loadMoreEnd()
+            } else {
+                presenter.getArticleData(cid, currentPage, type)
+            }
+        }
         adapter.setOnItemClickListener { _, _, position ->
             if (position < data.size) {
                 val article = data[position]
@@ -65,7 +64,7 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
     override fun showArticleDatas(data: ArticleData) {
         currentPage = data.curPage
         totalPage = data.pageCount
-//        adapter.loadMoreComplete()
+        adapter.loadMoreModule.loadMoreComplete()
         if (currentPage == 0) {
             this.data.clear()
         }

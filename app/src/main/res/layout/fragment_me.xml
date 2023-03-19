@@ -4,72 +4,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent">
 
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:background="@color/colorAccent"
-                android:fitsSystemWindows="true">
+                app:collapsedTitleGravity="center"
+                app:expandedTitleGravity="center_horizontal"
+                app:expandedTitleMarginTop="168dp"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:title="Login"
+                app:toolbarId="@id/titleBar">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/toolbar"
+            <ImageView
+                    android:id="@+id/picture"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/login_logout"
+                    android:src="@drawable/default_icon" />
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/titleBar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="?attr/actionBarSize"
                     android:fitsSystemWindows="true"
-                    app:collapsedTitleGravity="center"
-                    app:expandedTitleGravity="center_horizontal"
-                    app:expandedTitleMarginTop="168dp"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:title="Login">
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_collapseMode="pin" />
 
-                <ImageView
-                        android:id="@+id/picture"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp"
-                        android:contentDescription="@string/login_logout"
-                        android:src="@drawable/default_icon" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:fitsSystemWindows="true"
-                        app:contentInsetLeft="0dp"
-                        app:contentInsetStart="0dp"
-                        app:layout_collapseMode="pin" />
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+                android:id="@+id/me_warning"
+                android:layout_width="match_parent"
+                android:layout_height="480dp"
+                android:gravity="center_horizontal"
+                android:paddingTop="130dp"
+                android:text="@string/logout_collect_warning"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
     </androidx.core.widget.NestedScrollView>
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <TextView
-                    android:id="@+id/me_warning"
-                    android:layout_width="match_parent"
-                    android:layout_height="480dp"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="130dp"
-                    android:text="@string/logout_collect_warning"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-        </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

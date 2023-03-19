@@ -12,6 +12,8 @@
             android:layout_height="60dp"
             app:itemIconTint="@color/navigate_select"
             app:itemTextColor="@color/navigate_select"
+            app:backgroundTint="@color/white"
+            app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/navigate" />
 

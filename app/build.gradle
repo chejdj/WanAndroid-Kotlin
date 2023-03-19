@@ -40,7 +40,6 @@ dependencies {
 
     //UI
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     kapt 'com.jakewharton:butterknife-compiler:10.2.3'

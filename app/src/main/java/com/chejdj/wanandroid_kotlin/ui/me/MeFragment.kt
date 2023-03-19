@@ -12,6 +12,7 @@ import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.account.AccountManager
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
+import com.chejdj.wanandroid_kotlin.events.LoginEvent
 import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.login.LoginActivity
@@ -19,6 +20,9 @@ import com.chejdj.wanandroid_kotlin.ui.me.contract.MeContract
 import com.chejdj.wanandroid_kotlin.ui.me.presenter.MePresenter
 import com.chejdj.wanandroid_kotlin.utils.StringUtils
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MeFragment : BaseFragment(), MeContract.View {
     @BindView(R.id.toolbar)
@@ -40,12 +44,12 @@ class MeFragment : BaseFragment(), MeContract.View {
     }
 
     override fun initView() {
+        EventBus.getDefault().register(this)
         if (AccountManager.isLogin) {
             hasLogin()
         } else {
             scrollView.visibility = View.VISIBLE
         }
-
     }
 
     private fun hasLogin() {
@@ -58,18 +62,15 @@ class MeFragment : BaseFragment(), MeContract.View {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         adapter = CommonArticleAdapter(articleData)
-
-//        adapter.openLoadAnimation()
-//        adapter.setEnableLoadMore(true)
-//        adapter.setOnLoadMoreListener({
-//            currentPage++
-//            if (currentPage < totalPage) {
-//                presenter.getCollectArticles(currentPage)
-//            } else {
-//                adapter.loadMoreEnd()
-//            }
-//        }, recyclerView)
-
+        adapter.animationEnable = true
+        adapter.loadMoreModule.setOnLoadMoreListener {
+            currentPage++
+            if (currentPage < totalPage) {
+                presenter.getCollectArticles(currentPage)
+            } else {
+                adapter.loadMoreModule.loadMoreEnd()
+            }
+        }
 
         recyclerView.adapter = adapter
 
@@ -118,12 +119,12 @@ class MeFragment : BaseFragment(), MeContract.View {
             }
             currentPage = data.curPage
             adapter.addData(data.datas!!)
-//            adapter.loadMoreComplete()
+            adapter.loadMoreModule.loadMoreComplete()
         }
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun loginSuccessful(event: LoginEvent) {
-//        hasLogin()
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun loginSuccessful(event: LoginEvent) {
+        hasLogin()
+    }
 }

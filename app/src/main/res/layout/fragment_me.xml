@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         tools:context=".ui.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,9 +17,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 android:minHeight="?attr/actionBarSize"
                 app:collapsedTitleGravity="center"
-                android:fitsSystemWindows="true"
                 app:expandedTitleGravity="center_horizontal"
                 app:expandedTitleMarginTop="168dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"

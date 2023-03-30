@@ -125,9 +125,8 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
         startActivity(intent)
     }
 
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroyView() {
+        super.onDestroyView()
         (presenter as HomePresenter).destory()
     }
 

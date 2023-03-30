@@ -4,12 +4,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
             android:name=".WanAndroidApplication"
             android:allowBackup="true"
             android:icon="@mipmap/launcher"
             android:label="@string/app_name"
+            android:requestLegacyExternalStorage="true"
             android:roundIcon="@mipmap/launcher"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">

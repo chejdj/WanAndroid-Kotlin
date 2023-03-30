@@ -1,5 +1,16 @@
 package com.chejdj.wanandroid_kotlin.ui
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
@@ -13,6 +24,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : BaseActivity() {
+    val storePermissionRequestCode: Int = 1001
+
     @BindView(R.id.navigate)
     lateinit var navigate: BottomNavigationView
     private val fragmentList: ArrayList<Fragment> = ArrayList()
@@ -20,6 +33,40 @@ class MainActivity : BaseActivity() {
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestExternalStoragePermission()
+    }
+
+    private fun requestExternalStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.data = Uri.parse("package:$packageName")
+                val settingsLauncher =
+                    registerForActivityResult(
+                        ActivityResultContracts.StartActivityForResult()
+                    ) { result ->
+                        Log.i("Permission", "result: ${result.resultCode}")
+                    }
+                settingsLauncher.launch(intent)
+            }
+        } else {
+            val granted: Int =
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (granted != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
+                    storePermissionRequestCode
+                )
+            }
+        }
     }
 
     override fun initView() {
@@ -76,6 +123,17 @@ class MainActivity : BaseActivity() {
             }
             true
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == storePermissionRequestCode) {
+            Log.i("Permission", "grantResults: " + grantResults + " permissions: " + permissions[0])
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun showNextFragment(lastFragment: Int, currentFragment: Int) {

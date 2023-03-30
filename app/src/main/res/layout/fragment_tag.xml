@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorAccent"
             app:layout_constraintTop_toTopOf="parent">
+
         <RelativeLayout
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal">
+
             <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
@@ -25,18 +26,20 @@
                     android:gravity="center"
                     android:text="@string/menu_wechat_sub"
                     android:textColor="#fff"
-                    android:textSize="@dimen/toolbar_title_tx"/>
+                    android:textSize="@dimen/toolbar_title_tx" />
+
             <ImageView
                     android:id="@+id/back"
-                    android:src="@drawable/back"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    android:layout_alignParentStart="true"
                     android:layout_width="@dimen/toolbar_iv_width"
-                    android:layout_height="@dimen/toolbar_iv_height"/>
+                    android:layout_height="@dimen/toolbar_iv_height"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/back"
+                    android:visibility="gone" />
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-    <android.support.design.widget.TabLayout
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -44,11 +47,12 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:tabIndicatorColor="@color/white"
             app:tabMode="scrollable"
-            app:tabTextColor="@color/white"/>
-    <android.support.v4.view.ViewPager
+            app:tabTextColor="@color/white" />
+
+    <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"/>
-</android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

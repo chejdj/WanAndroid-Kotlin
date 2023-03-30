@@ -5,7 +5,7 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorAccent">
@@ -18,9 +18,9 @@
                 android:text="@string/menu_knowledge_hierarchy"
                 android:textColor="#fff"
                 android:textSize="@dimen/toolbar_title_tx" />
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

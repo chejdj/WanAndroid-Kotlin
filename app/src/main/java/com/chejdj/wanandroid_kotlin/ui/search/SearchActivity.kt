@@ -1,12 +1,12 @@
 package com.chejdj.wanandroid_kotlin.ui.search
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
@@ -30,10 +30,13 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
     @BindView(R.id.search)
     lateinit var searchView: SearchView
+
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
+
     @BindView(R.id.flowLayout)
     lateinit var flowLayout: TagFlowLayout
+
     @BindView(R.id.hot_keys)
     lateinit var hotKeysTx: TextView
     private var currentPage: Int = 0
@@ -51,17 +54,16 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         presenter = SearchPresenter(this, this)
         presenter.getHotKeys()
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter = CommonArticleAdapter(R.layout.item_article, articleList)
-        adapter.openLoadAnimation()
-        adapter.setEnableLoadMore(true)
-        adapter.setOnLoadMoreListener({
+        adapter = CommonArticleAdapter(articleList)
+        adapter.animationEnable = true
+        adapter.loadMoreModule.setOnLoadMoreListener {
             currentPage++
             if (currentPage > totalPage) {
-                adapter.loadMoreEnd()
+                adapter.loadMoreModule.loadMoreEnd()
             } else {
                 presenter.getSearchResults(currentKeyWords, currentPage)
             }
-        }, recyclerView)
+        }
         adapter.setOnItemClickListener { _, _, position ->
             if (position < articleList.size) {
                 val article = articleList[position]

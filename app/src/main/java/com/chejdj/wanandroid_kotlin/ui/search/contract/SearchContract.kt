@@ -16,7 +16,7 @@ interface SearchContract {
     }
 
     interface Model {
-        suspend fun getHotKeys(): BaseRes<List<HotKeyBean>>
-        suspend fun getSearchResults(key: String, pageNum: Int): BaseRes<ArticleData>
+        suspend fun getHotKeys(): BaseRes<List<HotKeyBean>?>
+        suspend fun getSearchResults(key: String, pageNum: Int): BaseRes<ArticleData?>
     }
 }

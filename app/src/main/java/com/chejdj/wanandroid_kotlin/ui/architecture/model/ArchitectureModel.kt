@@ -9,7 +9,7 @@ import com.chejdj.wanandroid_kotlin.ui.architecture.contract.ArchitectureContrac
  * Created by zhuyangyang on 2019-08-20
  */
 class ArchitectureModel : ArchitectureContract.Model {
-    override suspend fun getArchitectureData(): BaseRes<List<PrimaryArticleDirectoryBean>> {
+    override suspend fun getArchitectureData(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return DataManager.getKnowledgeArchitecture()
     }
 }

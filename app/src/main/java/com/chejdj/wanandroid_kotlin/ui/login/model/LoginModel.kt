@@ -9,7 +9,7 @@ class LoginModel : LoginContract.Model {
     override suspend fun login(
         accountName: String,
         password: String
-    ): BaseRes<LoginBean> {
+    ): BaseRes<LoginBean?> {
         return DataManager.login(accountName, password)
     }
 }

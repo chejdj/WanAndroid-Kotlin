@@ -7,11 +7,11 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
 
 class HomeModel : HomeContract.Model {
-    override suspend fun getBannerData(): BaseRes<List<HomeBannerBean>> {
+    override suspend fun getBannerData(): BaseRes<List<HomeBannerBean>?> {
         return DataManager.getHomeBanner()
     }
 
-    override suspend fun getArticlesData(pageNum: Int): BaseRes<ArticleData> {
+    override suspend fun getArticlesData(pageNum: Int): BaseRes<ArticleData?> {
         return DataManager.getHomeArticles(pageNum)
     }
 }

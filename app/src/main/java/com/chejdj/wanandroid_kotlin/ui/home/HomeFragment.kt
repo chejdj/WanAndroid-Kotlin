@@ -1,12 +1,15 @@
 package com.chejdj.wanandroid_kotlin.ui.home
 
 import android.content.Intent
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import butterknife.OnClick
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
@@ -18,10 +21,14 @@ import com.chejdj.wanandroid_kotlin.ui.home.presenter.HomePresenter
 import com.chejdj.wanandroid_kotlin.ui.search.SearchActivity
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 import com.youth.banner.Banner
+import com.youth.banner.adapter.BannerImageAdapter
+import com.youth.banner.holder.BannerImageHolder
+import com.youth.banner.indicator.CircleIndicator
 
 class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
+
     @BindView(R.id.swipe)
     lateinit var swipe: SwipeRefreshLayout
     private lateinit var presenter: HomeContract.Presenter
@@ -30,7 +37,7 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
     private lateinit var commonArticleAdapter: CommonArticleAdapter
     private var currentPage = 0
     private var totalPage = 0
-    private lateinit var homeBanner: Banner
+    private lateinit var homeBanner: Banner<HomeBannerBean, BannerImageAdapter<HomeBannerBean>>
 
     override fun initView() {
         presenter = HomePresenter(this, this)
@@ -38,18 +45,37 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
         val headerView = LayoutInflater.from(context).inflate(R.layout.item_banner, null)
-        homeBanner = headerView.findViewById(R.id.home_banner) as Banner
-        homeBanner.setImageLoader(HomeImageLoader())
-        homeBanner.setImages(bannerList)
+        homeBanner = headerView.findViewById(R.id.home_banner)
+        homeBanner.addBannerLifecycleObserver(this).indicator = CircleIndicator(requireContext())
+        homeBanner.setAdapter(object : BannerImageAdapter<HomeBannerBean>(bannerList) {
+            override fun onBindView(
+                holder: BannerImageHolder?,
+                data: HomeBannerBean?,
+                position: Int,
+                size: Int
+            ) {
+                if (data != null) {
+                    holder?.imageView?.let {
+                        Glide.with(it).load(data.imagePath).apply(
+                            RequestOptions.bitmapTransform(
+                                RoundedCorners(30)
+                            )
+                        ).into(it)
+                    }
+                }
+            }
+        })
+        homeBanner.setDatas(bannerList)
         homeBanner.start()
 
         commonArticleAdapter =
-            CommonArticleAdapter(R.layout.item_article, articleList)
+            CommonArticleAdapter(articleList)
         commonArticleAdapter.addHeaderView(headerView)
-        commonArticleAdapter.openLoadAnimation()
-        commonArticleAdapter.setEnableLoadMore(true)
+        commonArticleAdapter.animationEnable = true
+        commonArticleAdapter.loadMoreModule.isEnableLoadMore = true
         recyclerView.adapter = commonArticleAdapter
         initListener()
+        (presenter as HomePresenter).start()
     }
 
     override fun loadData() {
@@ -65,29 +91,27 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
             (presenter as HomePresenter).start()
             swipe.isRefreshing = false
         }
-        commonArticleAdapter.setOnLoadMoreListener({
+        commonArticleAdapter.loadMoreModule.setOnLoadMoreListener {
             if (currentPage + 1 <= totalPage) {
                 presenter.getArticlesData(currentPage + 1)
             } else {
-                commonArticleAdapter.loadMoreEnd()
-            }
-        }, recyclerView)
-        commonArticleAdapter.setOnItemClickListener { adapter, view, position ->
-            if (position < articleList.size) {
-                val article = articleList[position]
-                WebViewActivity.launchWebViewActivity(context!!, article.link, article.title)
+                commonArticleAdapter.loadMoreModule.loadMoreEnd()
             }
         }
-        homeBanner.setOnBannerListener {
-            if (it < bannerList.size) {
-                WebViewActivity.launchWebViewActivity(
-                    context!!,
-                    bannerList[it].url,
-                    bannerList[it].title
-                )
+        commonArticleAdapter.setOnItemClickListener { _, _, position ->
+            if (position < articleList.size) {
+                val article = articleList[position]
+                WebViewActivity.launchWebViewActivity(requireContext(), article.link, article.title)
             }
         }
 
+        homeBanner.adapter.setOnBannerListener { _, position ->
+            WebViewActivity.launchWebViewActivity(
+                requireContext(),
+                bannerList[position].url,
+                bannerList[position].title
+            )
+        }
     }
 
 
@@ -101,15 +125,16 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
         startActivity(intent)
     }
 
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroyView() {
+        super.onDestroyView()
         (presenter as HomePresenter).destory()
     }
 
     override fun showBannerData(data: List<HomeBannerBean>?) {
         if (data !== null) {
-            homeBanner.update(data)
+            bannerList.clear();
+            bannerList.addAll(data)
+            homeBanner.setDatas(data)
         }
     }
 
@@ -123,7 +148,7 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
             }
             currentPage = data.curPage
             commonArticleAdapter.addData(data.datas!!)
-            commonArticleAdapter.loadMoreComplete()
+            commonArticleAdapter.loadMoreModule.loadMoreComplete()
         }
     }
 }

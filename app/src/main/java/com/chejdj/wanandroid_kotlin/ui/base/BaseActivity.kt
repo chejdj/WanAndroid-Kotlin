@@ -1,7 +1,7 @@
 package com.chejdj.wanandroid_kotlin.ui.base
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

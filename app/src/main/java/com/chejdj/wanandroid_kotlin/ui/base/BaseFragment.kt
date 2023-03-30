@@ -1,10 +1,10 @@
 package com.chejdj.wanandroid_kotlin.ui.base
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import butterknife.ButterKnife
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -22,6 +22,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
         ButterKnife.bind(this, rootView!!)
         return rootView
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

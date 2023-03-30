@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorAccent">
+            android:background="@color/colorAccent"
+            android:fitsSystemWindows="true">
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,13 +30,14 @@
                     android:layout_height="@dimen/toolbar_iv_height"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/back"
                     android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/back"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/back" />
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-    <android.support.design.widget.TextInputLayout
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_username"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_height_et"
@@ -45,8 +46,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:background="@drawable/edit_tx_bg"
-            android:textColorHint="@color/gray"
             android:paddingTop="4dp"
+            android:textColorHint="@color/gray"
             app:hintEnabled="true"
             app:theme="@style/EditText_Theme">
 
@@ -54,46 +55,45 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:autofillHints="@string/username"
                 android:hint="@string/username"
                 android:inputType="text"
                 android:maxLength="15"
                 android:maxLines="1"
-                android:textColor="@color/black"
                 android:paddingStart="8dp"
-                android:autofillHints="@string/username"
-        />
-    </android.support.design.widget.TextInputLayout>
+                android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_password"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_height_et"
             android:layout_below="@id/tl_username"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginTop="24dp"
-            android:paddingTop="4dp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:background="@drawable/edit_tx_bg"
+            android:paddingTop="4dp"
             android:textColorHint="@color/gray"
             app:hintEnabled="true"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/gray"
             app:passwordToggleTintMode="multiply"
             app:theme="@style/EditText_Theme">
+
         <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:autofillHints="@string/password"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:maxLength="15"
                 android:maxLines="1"
-                android:textColor="@color/black"
                 android:paddingStart="@dimen/margin_normal"
-                android:autofillHints="@string/password"
-        />
-    </android.support.design.widget.TextInputLayout>
+                android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
             android:id="@+id/login"

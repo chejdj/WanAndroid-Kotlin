@@ -3,12 +3,12 @@ package com.chejdj.wanandroid_kotlin.ui.webview
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -36,11 +36,11 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(getLayoutId())
         ButterKnife.bind(this)
         if (savedInstanceState != null) {
-            articleUrl = savedInstanceState.getString(ARTICLE_URL)
-            articleTitle = savedInstanceState.getString(ARTICLE_TITLE)
+            articleUrl = savedInstanceState.getString(ARTICLE_URL).toString()
+            articleTitle = savedInstanceState.getString(ARTICLE_TITLE).toString()
         } else {
-            articleUrl = intent.getStringExtra(ARTICLE_URL)
-            articleTitle = intent.getStringExtra(ARTICLE_TITLE)
+            articleUrl = intent.getStringExtra(ARTICLE_URL).toString()
+            articleTitle = intent.getStringExtra(ARTICLE_TITLE).toString()
         }
         initView()
     }
@@ -52,7 +52,7 @@ class WebViewActivity : AppCompatActivity() {
         webSettings.allowContentAccess = true
         webSettings.databaseEnabled = true
         webSettings.domStorageEnabled = true
-        webSettings.setAppCacheEnabled(true)
+//        webSettings.setAppCacheEnabled(true)
         webSettings.useWideViewPort = true
         webSettings.loadWithOverviewMode = true
         webSettings.blockNetworkImage = true
@@ -67,10 +67,9 @@ class WebViewActivity : AppCompatActivity() {
                 super.onPageFinished(view, url)
             }
         }
-        webView.setOnKeyListener { v, keyCode, event ->
+        webView.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
                 webView.goBack()
-                true
             }
             false
         }

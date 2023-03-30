@@ -21,7 +21,7 @@ abstract class BaseLazyLoadViewPagerFragment : BaseFragment() {
     }
 
     private fun isParentVisible(): Boolean {
-        return parentFragment == null || ( parentFragment!!.isVisible)
+        return parentFragment == null || (parentFragment?.isVisible == true)
     }
 
     private fun tryLoadData() {

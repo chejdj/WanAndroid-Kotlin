@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -28,7 +28,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/back" />
 
-            <android.support.v7.widget.SearchView
+            <androidx.appcompat.widget.SearchView
                     android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -39,7 +39,7 @@
                     app:queryHint="@string/search_tx"
                     app:searchIcon="@null" />
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
             android:id="@+id/hot_keys"
@@ -60,7 +60,7 @@
             android:layout_margin="16dp"
             app:layout_constraintTop_toBottomOf="@id/hot_keys" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -68,4 +68,4 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

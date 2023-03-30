@@ -1,11 +1,11 @@
 package com.chejdj.wanandroid_kotlin.ui.base
 
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.widget.TextView
+import androidx.viewpager.widget.ViewPager
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonTagsViewPagerAdapter
+import com.google.android.material.tabs.TabLayout
 import java.util.*
 
 /**

@@ -9,6 +9,6 @@ interface ProjectContract {
     }
 
     interface Model {
-        suspend fun getProjectTags(): BaseRes<List<PrimaryArticleDirectoryBean>>
+        suspend fun getProjectTags(): BaseRes<List<PrimaryArticleDirectoryBean>?>
     }
 }

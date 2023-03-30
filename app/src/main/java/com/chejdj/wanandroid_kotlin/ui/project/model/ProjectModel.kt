@@ -6,7 +6,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDire
 import com.chejdj.wanandroid_kotlin.ui.project.contract.ProjectContract
 
 class ProjectModel : ProjectContract.Model {
-    override suspend fun getProjectTags(): BaseRes<List<PrimaryArticleDirectoryBean>> {
+    override suspend fun getProjectTags(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return DataManager.getProjectSorts()
     }
 }

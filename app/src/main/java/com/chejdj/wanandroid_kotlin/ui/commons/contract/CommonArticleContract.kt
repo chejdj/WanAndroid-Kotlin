@@ -10,7 +10,7 @@ interface CommonArticleContract {
     }
 
     interface Model {
-        suspend fun getArticleData(cid: Int, pageCount: Int, type: Int): BaseRes<ArticleData>
+        suspend fun getArticleData(cid: Int, pageCount: Int, type: Int): BaseRes<ArticleData?>
     }
 
     interface Presenter {

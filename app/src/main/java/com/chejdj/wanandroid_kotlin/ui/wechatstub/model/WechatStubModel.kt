@@ -6,7 +6,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDire
 import com.chejdj.wanandroid_kotlin.ui.wechatstub.contract.WechatStubContract
 
 class WechatStubModel : WechatStubContract.Model {
-    override suspend fun getWechatChapters(): BaseRes<List<PrimaryArticleDirectoryBean>> {
+    override suspend fun getWechatChapters(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return DataManager.getWechatArticleLists()
     }
 }

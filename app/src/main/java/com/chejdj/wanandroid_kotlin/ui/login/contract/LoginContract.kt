@@ -14,6 +14,6 @@ interface LoginContract {
     }
 
     interface Model {
-        suspend fun login(accountName: String, password: String): BaseRes<LoginBean>
+        suspend fun login(accountName: String, password: String): BaseRes<LoginBean?>
     }
 }

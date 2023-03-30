@@ -14,6 +14,6 @@ interface MeContract {
     }
 
     interface Model {
-        suspend fun getCollectArticles(pageNum: Int): BaseRes<ArticleData>
+        suspend fun getCollectArticles(pageNum: Int): BaseRes<ArticleData?>
     }
 }

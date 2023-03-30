@@ -16,7 +16,7 @@ interface HomeContract {
     }
 
     interface Model {
-        suspend fun getBannerData(): BaseRes<List<HomeBannerBean>>
-        suspend fun getArticlesData(pageNum: Int): BaseRes<ArticleData>
+        suspend fun getBannerData(): BaseRes<List<HomeBannerBean>?>
+        suspend fun getArticlesData(pageNum: Int): BaseRes<ArticleData?>
     }
 }

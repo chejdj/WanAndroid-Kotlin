@@ -2,6 +2,7 @@ package com.chejdj.wanandroid_kotlin.ui.home
 
 import android.content.Intent
 import android.view.LayoutInflater
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -13,11 +14,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
-import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
-import com.chejdj.wanandroid_kotlin.ui.home.contract.HomeContract
-import com.chejdj.wanandroid_kotlin.ui.home.presenter.HomePresenter
+import com.chejdj.wanandroid_kotlin.ui.home.viewmodel.HomeViewModel
 import com.chejdj.wanandroid_kotlin.ui.search.SearchActivity
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 import com.youth.banner.Banner
@@ -25,13 +24,13 @@ import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
 
-class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
+class HomeFragment : BaseLazyLoadFragment() {
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
 
     @BindView(R.id.swipe)
     lateinit var swipe: SwipeRefreshLayout
-    private lateinit var presenter: HomeContract.Presenter
+    private var homeViewModel: HomeViewModel? = null
     private val articleList = ArrayList<Article>()
     private val bannerList = ArrayList<HomeBannerBean>()
     private lateinit var commonArticleAdapter: CommonArticleAdapter
@@ -40,7 +39,7 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
     private lateinit var homeBanner: Banner<HomeBannerBean, BannerImageAdapter<HomeBannerBean>>
 
     override fun initView() {
-        presenter = HomePresenter(this, this)
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         val layoutManager = LinearLayoutManager(this.context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
@@ -75,11 +74,31 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
         commonArticleAdapter.loadMoreModule.isEnableLoadMore = true
         recyclerView.adapter = commonArticleAdapter
         initListener()
-        (presenter as HomePresenter).start()
+        homeViewModel?.start()
+        homeViewModel?.bannerLiveData?.observe(this) {
+            if (it !== null) {
+                bannerList.clear()
+                bannerList.addAll(it)
+                homeBanner.setDatas(it)
+            }
+        }
+        homeViewModel?.articleData?.observe(this) {
+            if (it !== null && it.datas !== null) {
+                if (it.curPage == 0) {
+                    articleList.clear()
+                }
+                if (totalPage == 0) {
+                    totalPage = it.pageCount
+                }
+                currentPage = it.curPage
+                commonArticleAdapter.addData(it.datas!!)
+                commonArticleAdapter.loadMoreModule.loadMoreComplete()
+            }
+        }
     }
 
     override fun loadData() {
-        (presenter as HomePresenter).start()
+        homeViewModel?.start()
     }
 
     override fun isDataEmpty(): Boolean {
@@ -88,12 +107,12 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
 
     private fun initListener() {
         swipe.setOnRefreshListener {
-            (presenter as HomePresenter).start()
+            homeViewModel?.start()
             swipe.isRefreshing = false
         }
         commonArticleAdapter.loadMoreModule.setOnLoadMoreListener {
             if (currentPage + 1 <= totalPage) {
-                presenter.getArticlesData(currentPage + 1)
+                homeViewModel?.getArticlesData(currentPage + 1)
             } else {
                 commonArticleAdapter.loadMoreModule.loadMoreEnd()
             }
@@ -123,32 +142,5 @@ class HomeFragment : BaseLazyLoadFragment(), HomeContract.View {
     fun intentToSearchActivity() {
         val intent = Intent(context, SearchActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (presenter as HomePresenter).destory()
-    }
-
-    override fun showBannerData(data: List<HomeBannerBean>?) {
-        if (data !== null) {
-            bannerList.clear();
-            bannerList.addAll(data)
-            homeBanner.setDatas(data)
-        }
-    }
-
-    override fun showArticlesData(data: ArticleData?) {
-        if (data !== null && data.datas !== null) {
-            if (data.curPage == 0) {
-                articleList.clear()
-            }
-            if (totalPage == 0) {
-                totalPage = data.pageCount
-            }
-            currentPage = data.curPage
-            commonArticleAdapter.addData(data.datas!!)
-            commonArticleAdapter.loadMoreModule.loadMoreComplete()
-        }
     }
 }

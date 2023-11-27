@@ -13,58 +13,58 @@ import com.chejdj.wanandroid_kotlin.data.remote.HttpService
  *
  */
 object DataManager {
-    suspend fun login(username: String, password: String): BaseRes<LoginBean?> {
+    fun login(username: String, password: String): BaseRes<LoginBean?> {
         return HttpService.login(username, password)
     }
 
-    suspend fun getHomeBanner(): BaseRes<List<HomeBannerBean>?> {
+    fun getHomeBanner(): BaseRes<List<HomeBannerBean>?> {
         return HttpService.getHomeBanner()
     }
 
-    suspend fun getHomeArticles(pageNum: Int): BaseRes<ArticleData?> {
+    fun getHomeArticles(pageNum: Int): BaseRes<ArticleData?> {
         return HttpService.getHomeArticles(pageNum)
     }
 
-    suspend fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return HttpService.getKnowledgeArchitecture()
     }
 
-    suspend fun getKonwledgeArchitectureDetialArticle(
+    fun getKonwledgeArchitectureDetialArticle(
         pageNum: Int,
         cid: Int
     ): BaseRes<ArticleData?> {
         return HttpService.getKnowledgeArchitectureDetailArticle(pageNum, cid)
     }
 
-    suspend fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
+    fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
         return HttpService.getHotKeys()
     }
 
-    suspend fun getSearchResults(pageNum: Int, keywords: String): BaseRes<ArticleData?> {
+    fun getSearchResults(pageNum: Int, keywords: String): BaseRes<ArticleData?> {
         return HttpService.getSearchResults(pageNum, keywords)
     }
 
-    suspend fun getCollectedArticle(pageNum: Int): BaseRes<ArticleData?> {
+    fun getCollectedArticle(pageNum: Int): BaseRes<ArticleData?> {
         return HttpService.getCollectedArticle(pageNum)
     }
 
-    suspend fun collectArticle(articleId: Int): BaseRes<ArticleData?> {
+    fun collectArticle(articleId: Int): BaseRes<ArticleData?> {
         return HttpService.collectArticle(articleId)
     }
 
-    suspend fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return HttpService.getWechatArticleLists()
     }
 
-    suspend fun getWechatChapterArticles(cid: Int, pageNum: Int): BaseRes<ArticleData?> {
+    fun getWechatChapterArticles(cid: Int, pageNum: Int): BaseRes<ArticleData?> {
         return HttpService.getWechatChapterArticles(cid, pageNum)
     }
 
-    suspend fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return HttpService.getProjectSorts()
     }
 
-    suspend fun getProjectData(pageNum: Int, cid: Int): BaseRes<ArticleData?> {
+    fun getProjectData(pageNum: Int, cid: Int): BaseRes<ArticleData?> {
         return HttpService.getProjectData(pageNum, cid)
     }
 }

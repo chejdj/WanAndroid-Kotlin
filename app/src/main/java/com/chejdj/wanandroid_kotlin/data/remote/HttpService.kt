@@ -8,7 +8,6 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.api.ApiService
 import com.chejdj.wanandroid_kotlin.data.remote.cookie.CookieManager
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,113 +27,114 @@ object HttpService {
         val retrofit: Retrofit =
             Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(CoroutineCallAdapterFactory()).build()
+                .build()
         apiService = retrofit.create(ApiService::class.java)
     }
 
 
-    suspend fun login(username: String, password: String): BaseRes<LoginBean?> {
+    fun login(username: String, password: String): BaseRes<LoginBean?> {
         return try {
-            apiService.userLogin(username, password).await()
+            apiService.userLogin(username, password).execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getHomeBanner(): BaseRes<List<HomeBannerBean>?> {
+    fun getHomeBanner(): BaseRes<List<HomeBannerBean>?> {
         return try {
-            apiService.getHomeBanner().await()
+            apiService.getHomeBanner().execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getHomeArticles(pageNum: Int): BaseRes<ArticleData?> {
+    fun getHomeArticles(pageNum: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getHomeArticles(pageNum).await()
+            apiService.getHomeArticles(pageNum).execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return try {
-            apiService.getKnowledgeArchitecture().await()
+            apiService.getKnowledgeArchitecture().execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getKnowledgeArchitectureDetailArticle(
+    fun getKnowledgeArchitectureDetailArticle(
         pageNum: Int,
         cid: Int
     ): BaseRes<ArticleData?> {
         return try {
-            apiService.getKonwledgeArchitectureDetailArticle(pageNum, cid).await()
+            apiService.getKonwledgeArchitectureDetailArticle(pageNum, cid).execute().body()
+                ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
+    fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
         return try {
-            apiService.getHotKeys().await()
+            apiService.getHotKeys().execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getSearchResults(pageNum: Int, keywords: String): BaseRes<ArticleData?> {
+     fun getSearchResults(pageNum: Int, keywords: String): BaseRes<ArticleData?> {
         return try {
-            apiService.getSearchResults(pageNum, keywords).await()
+            apiService.getSearchResults(pageNum, keywords).execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getCollectedArticle(pageNum: Int): BaseRes<ArticleData?> {
+    fun getCollectedArticle(pageNum: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getCollectedArticle(pageNum).await()
+            apiService.getCollectedArticle(pageNum).execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun collectArticle(articleId: Int): BaseRes<ArticleData?> {
+    fun collectArticle(articleId: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.collectArticle(articleId).await()
+            apiService.collectArticle(articleId).execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return try {
-            apiService.getWechatArticleLists().await()
+            apiService.getWechatArticleLists().execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getWechatChapterArticles(cid: Int, pageNum: Int): BaseRes<ArticleData?> {
+    fun getWechatChapterArticles(cid: Int, pageNum: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getWechatChapterArticles(cid, pageNum).await()
+            apiService.getWechatChapterArticles(cid, pageNum).execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return try {
-            apiService.getProjectSorts().await()
+            apiService.getProjectSorts().execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    suspend fun getProjectData(pageNum: Int, cid: Int): BaseRes<ArticleData?> {
+    fun getProjectData(pageNum: Int, cid: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getProjectData(pageNum, cid).await()
+            apiService.getProjectData(pageNum, cid).execute().body() ?: BaseRes()
         } catch (e: Exception) {
             BaseRes()
         }

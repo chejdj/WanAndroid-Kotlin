@@ -23,6 +23,22 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
         return rootView
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            onUserVisible()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onUserVisible()
+    }
+
+    open fun onUserVisible() {
+        // no op
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

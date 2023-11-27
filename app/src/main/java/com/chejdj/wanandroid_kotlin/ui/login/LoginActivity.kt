@@ -6,37 +6,39 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import butterknife.BindView
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.account.AccountManager
 import com.chejdj.wanandroid_kotlin.ui.MainActivity
 import com.chejdj.wanandroid_kotlin.ui.base.BaseActivity
-import com.chejdj.wanandroid_kotlin.ui.login.contract.LoginContract
-import com.chejdj.wanandroid_kotlin.ui.login.presenter.LoginPresenter
+import com.chejdj.wanandroid_kotlin.ui.login.viewmodel.LoginViewModel
 import com.chejdj.wanandroid_kotlin.utils.StringUtils
 
-class LoginActivity : BaseActivity(), LoginContract.View {
+class LoginActivity : BaseActivity() {
 
     @BindView(R.id.title)
     lateinit var titleTx: TextView
+
     @BindView(R.id.login)
     lateinit var loginBtn: Button
+
     @BindView(R.id.password)
     lateinit var passWordEt: EditText
+
     @BindView(R.id.username)
     lateinit var usernameEt: EditText
-    private lateinit var presenter: LoginContract.Presenter
+    private var viewModel: LoginViewModel? = null
 
-
-    override fun loginSuccessful(username: String) {
+    private fun loginSuccessful(username: String) {
         AccountManager.isLogin = true
         AccountManager.accountName = username
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
-    override fun loginFail(message: String) {
+    private fun loginFail(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -45,7 +47,14 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     override fun initView() {
-        presenter = LoginPresenter(this, this)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        viewModel?.loginResult?.observe(this) {
+            if (it.errorCode == 0) {
+                loginSuccessful(it.data?.username ?: "")
+            } else {
+                loginFail(it.errorMsg)
+            }
+        }
     }
 
     @OnClick(R.id.login)
@@ -56,7 +65,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
             Toast.makeText(this, "请输入账号或者密码", Toast.LENGTH_SHORT).show()
             return
         }
-        presenter.login(username, password)
+        viewModel?.login(username, password)
     }
 
     @OnClick(R.id.register)

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -15,8 +16,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.ui.base.BaseActivity
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
-import com.chejdj.wanandroid_kotlin.ui.search.contract.SearchContract
-import com.chejdj.wanandroid_kotlin.ui.search.presenter.SearchPresenter
+import com.chejdj.wanandroid_kotlin.ui.search.viewmodel.SearchViewModel
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
@@ -26,7 +26,7 @@ import java.util.*
 /**
  * Created by zhuyangyang on 2019-08-26
  */
-class SearchActivity : BaseActivity(), SearchContract.View {
+class SearchActivity : BaseActivity() {
 
     @BindView(R.id.search)
     lateinit var searchView: SearchView
@@ -41,18 +41,18 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     lateinit var hotKeysTx: TextView
     private var currentPage: Int = 0
     private var totalPage: Int = 0
-    private lateinit var presenter: SearchContract.Presenter
     private val articleList = ArrayList<Article>()
     private var currentKeyWords: String = ""
     private lateinit var adapter: CommonArticleAdapter
+    private var viewModel: SearchViewModel? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_search
     }
 
     override fun initView() {
-        presenter = SearchPresenter(this, this)
-        presenter.getHotKeys()
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        viewModel?.getHotKeys()
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = CommonArticleAdapter(articleList)
         adapter.animationEnable = true
@@ -61,7 +61,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             if (currentPage > totalPage) {
                 adapter.loadMoreModule.loadMoreEnd()
             } else {
-                presenter.getSearchResults(currentKeyWords, currentPage)
+                viewModel?.getSearchResults(currentKeyWords, currentPage)
             }
         }
         adapter.setOnItemClickListener { _, _, position ->
@@ -73,9 +73,15 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
         recyclerView.adapter = adapter
 
+        viewModel?.hotSearchWords?.observe(this) {
+            showHotKeys(it)
+        }
+        viewModel?.searchResult?.observe(this) {
+            showSearchResults(it)
+        }
     }
 
-    override fun showHotKeys(hotkeys: List<HotKeyBean>) {
+    private fun showHotKeys(hotkeys: List<HotKeyBean>) {
         if (recyclerView.visibility == View.VISIBLE) {
             recyclerView.visibility = View.GONE
         }
@@ -101,7 +107,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             currentPage = 0
             totalPage = 0
             currentKeyWords = hotkeys[position].name
-            presenter.getSearchResults(currentKeyWords, currentPage)
+            viewModel?.getSearchResults(currentKeyWords, currentPage)
             true
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -109,9 +115,9 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                 if (!TextUtils.isEmpty(p0)) {
                     currentPage = 0
                     totalPage = 0
-                    presenter.getSearchResults(p0!!, currentPage)
+                    viewModel?.getSearchResults(p0!!, currentPage)
                 } else {
-                    presenter.getHotKeys()
+                    viewModel?.getHotKeys()
                 }
                 return true
             }
@@ -120,9 +126,9 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                 if (!TextUtils.isEmpty(p0)) {
                     currentPage = 0
                     totalPage = 0
-                    presenter.getSearchResults(p0!!, currentPage)
+                    viewModel?.getSearchResults(p0!!, currentPage)
                 } else {
-                    presenter.getHotKeys()
+                    viewModel?.getHotKeys()
                 }
                 return true
             }
@@ -131,7 +137,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
     }
 
-    override fun showSearchResults(articleData: ArticleData) {
+    private fun showSearchResults(articleData: ArticleData) {
         if (recyclerView.visibility == View.GONE) {
             recyclerView.visibility = View.VISIBLE
         }

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.view.View
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -12,19 +13,14 @@ import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.account.AccountManager
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import com.chejdj.wanandroid_kotlin.events.LoginEvent
 import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.login.LoginActivity
-import com.chejdj.wanandroid_kotlin.ui.me.contract.MeContract
-import com.chejdj.wanandroid_kotlin.ui.me.presenter.MePresenter
+import com.chejdj.wanandroid_kotlin.ui.me.viewmodel.MeViewModel
 import com.chejdj.wanandroid_kotlin.utils.StringUtils
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
-class MeFragment : BaseFragment(), MeContract.View {
+class MeFragment : BaseFragment() {
     @BindView(R.id.toolbar)
     lateinit var toolbar: CollapsingToolbarLayout
 
@@ -33,22 +29,28 @@ class MeFragment : BaseFragment(), MeContract.View {
 
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
-    private lateinit var presenter: MeContract.Presenter
     private var currentPage = 0
     private var totalPage = 0
     private val articleData = ArrayList<Article>()
     private lateinit var adapter: CommonArticleAdapter
+    private var viewModel: MeViewModel? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_me
     }
 
     override fun initView() {
-        EventBus.getDefault().register(this)
         if (AccountManager.isLogin) {
             hasLogin()
         } else {
             scrollView.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onUserVisible() {
+        super.onUserVisible()
+        if (AccountManager.isLogin) {
+            hasLogin()
         }
     }
 
@@ -66,7 +68,7 @@ class MeFragment : BaseFragment(), MeContract.View {
         adapter.loadMoreModule.setOnLoadMoreListener {
             currentPage++
             if (currentPage < totalPage) {
-                presenter.getCollectArticles(currentPage)
+                viewModel?.getCollectArticles(currentPage)
             } else {
                 adapter.loadMoreModule.loadMoreEnd()
             }
@@ -74,10 +76,11 @@ class MeFragment : BaseFragment(), MeContract.View {
 
         recyclerView.adapter = adapter
 
-
-        presenter = MePresenter(this, this)
-        presenter.getCollectArticles(currentPage)
-
+        viewModel = ViewModelProvider(this)[MeViewModel::class.java]
+        viewModel?.getCollectArticles(currentPage)
+        viewModel?.collectArticle?.observe(this) {
+            showCollectArticles(it)
+        }
     }
 
     @OnClick(R.id.picture)
@@ -103,7 +106,7 @@ class MeFragment : BaseFragment(), MeContract.View {
         }
     }
 
-    override fun showCollectArticles(data: ArticleData) {
+    private fun showCollectArticles(data: ArticleData) {
         if (data.datas !== null) {
             if (scrollView.visibility == View.VISIBLE) {
                 scrollView.visibility = View.GONE
@@ -121,10 +124,5 @@ class MeFragment : BaseFragment(), MeContract.View {
             adapter.addData(data.datas!!)
             adapter.loadMoreModule.loadMoreComplete()
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun loginSuccessful(event: LoginEvent) {
-        hasLogin()
     }
 }

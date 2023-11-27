@@ -2,19 +2,18 @@ package com.chejdj.wanandroid_kotlin.ui.commons
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
-import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadViewPagerFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
-import com.chejdj.wanandroid_kotlin.ui.commons.contract.CommonArticleContract
-import com.chejdj.wanandroid_kotlin.ui.commons.presenter.CommonArticlePresenter
+import com.chejdj.wanandroid_kotlin.ui.commons.viewmodel.CommonViewModel
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 
-class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleContract.View {
+class CommonArticleFragment : BaseLazyLoadViewPagerFragment() {
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CommonArticleAdapter
@@ -23,7 +22,7 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
     private var type = 0
     private var currentPage: Int = 0
     private var totalPage: Int = 0
-    private lateinit var presenter: CommonArticleContract.Presenter
+    private var commonViewModel: CommonViewModel? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_common_article
@@ -38,13 +37,13 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
         adapter = CommonArticleAdapter(data)
         adapter.animationEnable = true
         recyclerView.adapter = adapter
-        presenter = CommonArticlePresenter(this, this)
+        commonViewModel = ViewModelProvider(this)[CommonViewModel::class.java]
         adapter.loadMoreModule.setOnLoadMoreListener {
             currentPage++
             if (currentPage >= totalPage) {
                 adapter.loadMoreModule.loadMoreEnd()
             } else {
-                presenter.getArticleData(cid, currentPage, type)
+                commonViewModel?.getArticleData(cid, currentPage, type)
             }
         }
         adapter.setOnItemClickListener { _, _, position ->
@@ -54,21 +53,21 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment(), CommonArticleCont
             }
         }
 
+        commonViewModel?.commonArticleData?.observe(this) {
+            it?.let {
+                currentPage = it.curPage
+                totalPage = it.pageCount
+                adapter.loadMoreModule.loadMoreComplete()
+                if (currentPage == 0) {
+                    this.data.clear()
+                }
+                adapter.addData(it.datas!!)
+            }
+        }
     }
 
     override fun loadData() {
-        presenter.getArticleData(cid, currentPage, type)
-    }
-
-
-    override fun showArticleDatas(data: ArticleData) {
-        currentPage = data.curPage
-        totalPage = data.pageCount
-        adapter.loadMoreModule.loadMoreComplete()
-        if (currentPage == 0) {
-            this.data.clear()
-        }
-        adapter.addData(data.datas!!)
+        commonViewModel?.getArticleData(cid, currentPage, type)
     }
 
     companion object {

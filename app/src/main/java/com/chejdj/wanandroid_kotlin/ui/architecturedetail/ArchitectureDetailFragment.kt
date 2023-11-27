@@ -5,6 +5,7 @@ import android.widget.ImageView
 import butterknife.BindView
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
+import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.ui.base.BaseTagFragment
 import java.util.*
 
@@ -22,13 +23,14 @@ class ArchitectureDetailFragment : BaseTagFragment() {
         }
         title.text = (activity as ArchitectureDetailActivity).getToolbarTitle()
         val data = (activity as ArchitectureDetailActivity).getSecondaryArticles()
-        val tagList = ArrayList<String>()
-        val cidNumbers = ArrayList<Int>()
+        val dataList = ArrayList<PrimaryArticleDirectoryBean>()
         for (item in data) {
-            tagList.add(item.name)
-            cidNumbers.add(item.id)
+            val data = PrimaryArticleDirectoryBean()
+            data.id = item.id
+            data.name = item.name
+            dataList.add(data)
         }
-        showTags(tagList, cidNumbers)
+        showTags(dataList)
     }
 
     @OnClick(R.id.back)

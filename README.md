@@ -1,6 +1,6 @@
 ## WanAndroid-Kotlin
 #### 项目介绍
-**一款每日推荐优质文章的APP,该项目是鸿洋大佬推荐Andorid开发者的一个开源项目，项目中的API为鸿洋大佬提供([API直通车](https://www.wanandroid.com/blog/show/2))，此项目基于Kotlin+Material Design+MVP+Kotlin Coroutines+Retrofit等一些主流框架搭建而成**  
+**一款每日推荐优质文章的APP,该项目是鸿洋大佬推荐Andorid开发者的一个开源项目，项目中的API为鸿洋大佬提供([API直通车](https://www.wanandroid.com/blog/show/2))，此项目基于Kotlin+Material Design+MVI+Kotlin Coroutines+Retrofit等一些主流框架搭建而成**  
 ### 项目背景  
 公司的Android技术栈为Kotlin，于是想要拿一个项目练练手，加深一下对知识点的理解，以及对于Andorid开发整个流程的梳理，这个项目希望大家一起学习，探讨,尤其是对于Android新手如何写代码的通病以及如何写出高效简洁的代码(希望有大佬指点)，欢迎issue，star。  
 ### 整体模块

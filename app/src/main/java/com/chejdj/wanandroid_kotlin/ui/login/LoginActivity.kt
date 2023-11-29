@@ -6,15 +6,19 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import butterknife.BindView
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.account.AccountManager
+import com.chejdj.wanandroid_kotlin.base.BaseActivity
 import com.chejdj.wanandroid_kotlin.ui.MainActivity
-import com.chejdj.wanandroid_kotlin.ui.base.BaseActivity
 import com.chejdj.wanandroid_kotlin.ui.login.viewmodel.LoginViewModel
 import com.chejdj.wanandroid_kotlin.utils.StringUtils
+import kotlinx.coroutines.launch
 
 class LoginActivity : BaseActivity() {
 
@@ -48,11 +52,15 @@ class LoginActivity : BaseActivity() {
 
     override fun initView() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-        viewModel?.loginResult?.observe(this) {
-            if (it.errorCode == 0) {
-                loginSuccessful(it.data?.username ?: "")
-            } else {
-                loginFail(it.errorMsg)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel?.uiStateFlow?.collect {
+                    if (it.data.errorCode == 0) {
+                        loginSuccessful(it.data.data?.username ?: "")
+                    } else {
+                        loginFail(it.data.errorMsg)
+                    }
+                }
             }
         }
     }
@@ -65,7 +73,7 @@ class LoginActivity : BaseActivity() {
             Toast.makeText(this, "请输入账号或者密码", Toast.LENGTH_SHORT).show()
             return
         }
-        viewModel?.login(username, password)
+        viewModel?.sendUiIntent(LoginIntent.Login(username, password))
     }
 
     @OnClick(R.id.register)

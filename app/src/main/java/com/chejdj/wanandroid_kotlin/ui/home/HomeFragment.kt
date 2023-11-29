@@ -2,7 +2,10 @@ package com.chejdj.wanandroid_kotlin.ui.home
 
 import android.content.Intent
 import android.view.LayoutInflater
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -12,9 +15,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.chejdj.wanandroid_kotlin.R
+import com.chejdj.wanandroid_kotlin.base.BaseLazyLoadFragment
 import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
-import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.home.viewmodel.HomeViewModel
 import com.chejdj.wanandroid_kotlin.ui.search.SearchActivity
@@ -23,6 +26,9 @@ import com.youth.banner.Banner
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class HomeFragment : BaseLazyLoadFragment() {
     @BindView(R.id.recyclerView)
@@ -74,31 +80,61 @@ class HomeFragment : BaseLazyLoadFragment() {
         commonArticleAdapter.loadMoreModule.isEnableLoadMore = true
         recyclerView.adapter = commonArticleAdapter
         initListener()
-        homeViewModel?.start()
-        homeViewModel?.bannerLiveData?.observe(this) {
-            if (it !== null) {
-                bannerList.clear()
-                bannerList.addAll(it)
-                homeBanner.setDatas(it)
+        listenerUiState()
+    }
+
+    /**
+     * 监听uiState的变化
+     */
+    private fun listenerUiState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel?.uiStateFlow?.map {
+                    it.bannerState
+                }?.distinctUntilChanged()?.collect {
+                    when (it) {
+                        is BannerState.INIT -> {
+                        }
+
+                        is BannerState.SUCCESS -> {
+                            bannerList.clear()
+                            bannerList.addAll(it.model)
+                            homeBanner.setDatas(it.model)
+                        }
+                    }
+                }
             }
         }
-        homeViewModel?.articleData?.observe(this) {
-            if (it !== null && it.datas !== null) {
-                if (it.curPage == 0) {
-                    articleList.clear()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel?.uiStateFlow?.map {
+                    it.articleListState
+                }?.distinctUntilChanged()?.collect {
+                    when (it) {
+                        is ArticleListState.INIT -> {
+
+                        }
+
+                        is ArticleListState.SUCCESS -> {
+                            if (it.articles.curPage == 1) {
+                                articleList.clear()
+                            }
+                            if (totalPage == 0) {
+                                totalPage = it.articles.pageCount
+                            }
+                            currentPage = it.articles.curPage
+                            commonArticleAdapter.addData(it.articles.datas!!)
+                            commonArticleAdapter.loadMoreModule.loadMoreComplete()
+                        }
+                    }
                 }
-                if (totalPage == 0) {
-                    totalPage = it.pageCount
-                }
-                currentPage = it.curPage
-                commonArticleAdapter.addData(it.datas!!)
-                commonArticleAdapter.loadMoreModule.loadMoreComplete()
             }
         }
+        homeViewModel?.sendUiIntent(HomeIntent.GetAll)
     }
 
     override fun loadData() {
-        homeViewModel?.start()
+        homeViewModel?.sendUiIntent(HomeIntent.GetAll)
     }
 
     override fun isDataEmpty(): Boolean {
@@ -107,12 +143,13 @@ class HomeFragment : BaseLazyLoadFragment() {
 
     private fun initListener() {
         swipe.setOnRefreshListener {
-            homeViewModel?.start()
+            homeViewModel?.sendUiIntent(HomeIntent.GetArticle(0))
+            homeViewModel?.sendUiIntent(HomeIntent.GetBanner)
             swipe.isRefreshing = false
         }
         commonArticleAdapter.loadMoreModule.setOnLoadMoreListener {
             if (currentPage + 1 <= totalPage) {
-                homeViewModel?.getArticlesData(currentPage + 1)
+                homeViewModel?.sendUiIntent(HomeIntent.GetArticle(currentPage + 1))
             } else {
                 commonArticleAdapter.loadMoreModule.loadMoreEnd()
             }

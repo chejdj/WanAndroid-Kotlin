@@ -5,7 +5,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 
 class MeModel {
-    fun getCollectArticles(pageNum: Int): BaseRes<ArticleData?> {
+    suspend fun getCollectArticles(pageNum: Int): BaseRes<ArticleData?> {
         return DataManager.getCollectedArticle(pageNum)
     }
 }

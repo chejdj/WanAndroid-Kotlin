@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.SecondaryArticleDirectoryBean
-import com.chejdj.wanandroid_kotlin.ui.base.BaseActivity
+import com.chejdj.wanandroid_kotlin.base.BaseActivity
 
 /**
  * 知识体系下面的二级目录显示的文章

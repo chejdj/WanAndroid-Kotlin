@@ -8,7 +8,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDire
  * Created by zhuyangyang on 2019-08-20
  */
 class ArchitectureModel {
-    fun getArchitectureData(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    suspend fun getArchitectureData(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return DataManager.getKnowledgeArchitecture()
     }
 }

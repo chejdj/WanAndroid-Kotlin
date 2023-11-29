@@ -32,33 +32,33 @@ object HttpService {
     }
 
 
-    fun login(username: String, password: String): BaseRes<LoginBean?> {
+    suspend fun login(username: String, password: String): BaseRes<LoginBean?> {
         return try {
-            apiService.userLogin(username, password).execute().body() ?: BaseRes()
+            apiService.userLogin(username, password)
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    fun getHomeBanner(): BaseRes<List<HomeBannerBean>?> {
+    suspend fun getHomeBanner(): BaseRes<List<HomeBannerBean>?> {
         return try {
-            apiService.getHomeBanner().execute().body() ?: BaseRes()
+            apiService.getHomeBanner()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    fun getHomeArticles(pageNum: Int): BaseRes<ArticleData?> {
+    suspend fun getHomeArticles(pageNum: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getHomeArticles(pageNum).execute().body() ?: BaseRes()
+            apiService.getHomeArticles(pageNum)
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    suspend fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return try {
-            apiService.getKnowledgeArchitecture().execute().body() ?: BaseRes()
+            apiService.getKnowledgeArchitecture()
         } catch (e: Exception) {
             BaseRes()
         }
@@ -76,25 +76,25 @@ object HttpService {
         }
     }
 
-    fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
+    suspend fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
         return try {
-            apiService.getHotKeys().execute().body() ?: BaseRes()
+            apiService.getHotKeys()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-     fun getSearchResults(pageNum: Int, keywords: String): BaseRes<ArticleData?> {
+    suspend fun getSearchResults(pageNum: Int, keywords: String): BaseRes<ArticleData?> {
         return try {
-            apiService.getSearchResults(pageNum, keywords).execute().body() ?: BaseRes()
+            apiService.getSearchResults(pageNum, keywords)
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    fun getCollectedArticle(pageNum: Int): BaseRes<ArticleData?> {
+    suspend fun getCollectedArticle(pageNum: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getCollectedArticle(pageNum).execute().body() ?: BaseRes()
+            apiService.getCollectedArticle(pageNum)
         } catch (e: Exception) {
             BaseRes()
         }
@@ -108,33 +108,33 @@ object HttpService {
         }
     }
 
-    fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    suspend fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return try {
-            apiService.getWechatArticleLists().execute().body() ?: BaseRes()
+            apiService.getWechatArticleLists()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    fun getWechatChapterArticles(cid: Int, pageNum: Int): BaseRes<ArticleData?> {
+    suspend fun getWechatChapterArticles(cid: Int, pageNum: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getWechatChapterArticles(cid, pageNum).execute().body() ?: BaseRes()
+            apiService.getWechatChapterArticles(cid, pageNum)
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    suspend fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return try {
-            apiService.getProjectSorts().execute().body() ?: BaseRes()
+            apiService.getProjectSorts()
         } catch (e: Exception) {
             BaseRes()
         }
     }
 
-    fun getProjectData(pageNum: Int, cid: Int): BaseRes<ArticleData?> {
+    suspend fun getProjectData(pageNum: Int, cid: Int): BaseRes<ArticleData?> {
         return try {
-            apiService.getProjectData(pageNum, cid).execute().body() ?: BaseRes()
+            apiService.getProjectData(pageNum, cid)
         } catch (e: Exception) {
             BaseRes()
         }

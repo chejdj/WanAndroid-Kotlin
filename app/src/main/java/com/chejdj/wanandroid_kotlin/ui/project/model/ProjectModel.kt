@@ -5,7 +5,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 
 class ProjectModel {
-    fun getProjectTags(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    suspend fun getProjectTags(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return DataManager.getProjectSorts()
     }
 }

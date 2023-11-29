@@ -1,30 +1,27 @@
 package com.chejdj.wanandroid_kotlin.ui.search.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chejdj.wanandroid_kotlin.base.BaseViewModel
 import com.chejdj.wanandroid_kotlin.commons.ERROR
-import com.chejdj.wanandroid_kotlin.data.bean.HotKeyBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.remote.executeResponse
+import com.chejdj.wanandroid_kotlin.ui.search.SearchIntent
+import com.chejdj.wanandroid_kotlin.ui.search.SearchState
 import com.chejdj.wanandroid_kotlin.ui.search.model.SearchModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel : BaseViewModel<SearchState, SearchIntent>() {
     private val model = SearchModel()
 
-    val hotSearchWords: MutableLiveData<List<HotKeyBean>> = MutableLiveData()
-
-    val searchResult: MutableLiveData<ArticleData> = MutableLiveData()
-
-    fun getHotKeys() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun getHotKeys() {
+        viewModelScope.launch {
             val result = model.getHotKeys()
             executeResponse(result, {
-                if (result.data != null) {
-                    hotSearchWords.postValue(result.data)
+                result.data?.let {
+                    sendUiState {
+                        copy(hotKey = it)
+                    }
                 }
             }, {
                 Log.d(ERROR, "getHotKeys fail")
@@ -32,14 +29,30 @@ class SearchViewModel : ViewModel() {
         }
     }
 
-    fun getSearchResults(key: String, pageNum: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun getSearchResults(key: String, pageNum: Int) {
+        viewModelScope.launch {
             val result = model.getSearchResults(key, pageNum)
             executeResponse(result, {
                 result.data?.let {
-                    searchResult.postValue(it)
+                    sendUiState { copy(result = it) }
                 }
             }, {})
+        }
+    }
+
+    override fun initState(): SearchState {
+        return SearchState(emptyList(), ArticleData())
+    }
+
+    override fun handleIntent(uiIntent: SearchIntent) {
+        when (uiIntent) {
+            SearchIntent.GetHotKeys -> {
+                getHotKeys()
+            }
+
+            is SearchIntent.GetResults -> {
+                getSearchResults(uiIntent.key, uiIntent.pageNum)
+            }
         }
     }
 }

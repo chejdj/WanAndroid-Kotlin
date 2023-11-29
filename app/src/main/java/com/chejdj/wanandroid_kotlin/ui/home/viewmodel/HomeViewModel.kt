@@ -1,33 +1,27 @@
 package com.chejdj.wanandroid_kotlin.ui.home.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chejdj.wanandroid_kotlin.base.BaseViewModel
 import com.chejdj.wanandroid_kotlin.commons.ERROR
-import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
-import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 import com.chejdj.wanandroid_kotlin.data.remote.executeResponse
+import com.chejdj.wanandroid_kotlin.ui.home.ArticleListState
+import com.chejdj.wanandroid_kotlin.ui.home.BannerState
+import com.chejdj.wanandroid_kotlin.ui.home.HomeIntent
+import com.chejdj.wanandroid_kotlin.ui.home.HomeState
 import com.chejdj.wanandroid_kotlin.ui.home.model.HomeModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel : BaseViewModel<HomeState, HomeIntent>() {
     private val repo: HomeModel = HomeModel()
-    val bannerLiveData: MutableLiveData<List<HomeBannerBean>?> = MutableLiveData()
-    val articleData: MutableLiveData<ArticleData?> = MutableLiveData()
-
-    fun start() {
-        getBannerData()
-        getArticlesData(0)
-    }
-
     private fun getBannerData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val result = repo.getBannerData()
             executeResponse(
                 result, {
-                    bannerLiveData.postValue(result.data)
+                    result.data?.let {
+                        sendUiState { copy(bannerState = BannerState.SUCCESS(it)) }
+                    }
                 }, {
                     Log.d(ERROR, "getBannerData fail")
                 }
@@ -35,12 +29,35 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun getArticlesData(pageNum: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun getArticlesData(pageNum: Int) {
+        viewModelScope.launch {
             val result = repo.getArticlesData(pageNum)
             executeResponse(result, {
-                articleData.postValue(result.data)
+                result.data?.let {
+                    sendUiState { copy(articleListState = ArticleListState.SUCCESS(it)) }
+                }
             }, { Log.d(ERROR, "getArticlesData fail") })
+        }
+    }
+
+    override fun initState(): HomeState {
+        return HomeState(BannerState.INIT, ArticleListState.INIT)
+    }
+
+    override fun handleIntent(uiIntent: HomeIntent) {
+        when (uiIntent) {
+            HomeIntent.GetAll -> {
+                getBannerData()
+                getArticlesData(0)
+            }
+
+            HomeIntent.GetBanner -> {
+                getBannerData()
+            }
+
+            is HomeIntent.GetArticle -> {
+                getArticlesData(uiIntent.pageNum)
+            }
         }
     }
 }

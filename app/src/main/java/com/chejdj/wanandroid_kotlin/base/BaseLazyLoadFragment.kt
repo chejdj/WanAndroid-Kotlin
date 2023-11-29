@@ -1,4 +1,4 @@
-package com.chejdj.wanandroid_kotlin.ui.base
+package com.chejdj.wanandroid_kotlin.base
 
 abstract class BaseLazyLoadFragment : BaseFragment() {
     private var isLoadData: Boolean = false

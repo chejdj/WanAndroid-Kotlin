@@ -1,22 +1,31 @@
 package com.chejdj.wanandroid_kotlin.ui.login.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chejdj.wanandroid_kotlin.base.BaseViewModel
 import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
-import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
+import com.chejdj.wanandroid_kotlin.ui.login.LoginIntent
+import com.chejdj.wanandroid_kotlin.ui.login.LoginState
 import com.chejdj.wanandroid_kotlin.ui.login.model.LoginModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel : BaseViewModel<LoginState, LoginIntent>() {
     private val model = LoginModel()
-    val loginResult: MutableLiveData<BaseRes<LoginBean?>> = MutableLiveData()
-
-    fun login(accountName: String, password: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun login(accountName: String, password: String) {
+        viewModelScope.launch {
             val result = model.login(accountName, password)
-            loginResult.postValue(result)
+            sendUiState { copy(data = result) }
+        }
+    }
+
+    override fun initState(): LoginState {
+        return LoginState(BaseRes())
+    }
+
+    override fun handleIntent(uiIntent: LoginIntent) {
+        when (uiIntent) {
+            is LoginIntent.Login -> {
+                login(uiIntent.userName, uiIntent.password)
+            }
         }
     }
 }

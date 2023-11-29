@@ -6,11 +6,11 @@ import com.chejdj.wanandroid_kotlin.data.bean.HotKeyBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 
 class SearchModel {
-    fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
+    suspend fun getHotKeys(): BaseRes<List<HotKeyBean>?> {
         return DataManager.getHotKeys()
     }
 
-    fun getSearchResults(key: String, pageNum: Int): BaseRes<ArticleData?> {
+    suspend fun getSearchResults(key: String, pageNum: Int): BaseRes<ArticleData?> {
         return DataManager.getSearchResults(pageNum, key)
     }
 }

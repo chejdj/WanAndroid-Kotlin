@@ -5,22 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
+import com.chejdj.wanandroid_kotlin.base.BaseActivity
 import com.chejdj.wanandroid_kotlin.data.bean.HotKeyBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import com.chejdj.wanandroid_kotlin.ui.base.BaseActivity
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.search.viewmodel.SearchViewModel
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -52,7 +58,7 @@ class SearchActivity : BaseActivity() {
 
     override fun initView() {
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-        viewModel?.getHotKeys()
+        viewModel?.sendUiIntent(SearchIntent.GetHotKeys)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = CommonArticleAdapter(articleList)
         adapter.animationEnable = true
@@ -61,7 +67,7 @@ class SearchActivity : BaseActivity() {
             if (currentPage > totalPage) {
                 adapter.loadMoreModule.loadMoreEnd()
             } else {
-                viewModel?.getSearchResults(currentKeyWords, currentPage)
+                viewModel?.sendUiIntent(SearchIntent.GetResults(currentKeyWords, currentPage))
             }
         }
         adapter.setOnItemClickListener { _, _, position ->
@@ -72,12 +78,24 @@ class SearchActivity : BaseActivity() {
         }
 
         recyclerView.adapter = adapter
-
-        viewModel?.hotSearchWords?.observe(this) {
-            showHotKeys(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel?.uiStateFlow?.map {
+                    it.hotKey
+                }?.distinctUntilChanged()?.collect {
+                    showHotKeys(it)
+                }
+            }
         }
-        viewModel?.searchResult?.observe(this) {
-            showSearchResults(it)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel?.uiStateFlow?.map {
+                    it.result
+                }?.distinctUntilChanged()?.collect {
+                    showSearchResults(it)
+                }
+            }
         }
     }
 
@@ -107,7 +125,7 @@ class SearchActivity : BaseActivity() {
             currentPage = 0
             totalPage = 0
             currentKeyWords = hotkeys[position].name
-            viewModel?.getSearchResults(currentKeyWords, currentPage)
+            viewModel?.sendUiIntent(SearchIntent.GetResults(currentKeyWords, currentPage))
             true
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -115,9 +133,9 @@ class SearchActivity : BaseActivity() {
                 if (!TextUtils.isEmpty(p0)) {
                     currentPage = 0
                     totalPage = 0
-                    viewModel?.getSearchResults(p0!!, currentPage)
+                    viewModel?.sendUiIntent(SearchIntent.GetResults(p0!!, currentPage))
                 } else {
-                    viewModel?.getHotKeys()
+                    viewModel?.sendUiIntent(SearchIntent.GetHotKeys)
                 }
                 return true
             }
@@ -126,9 +144,9 @@ class SearchActivity : BaseActivity() {
                 if (!TextUtils.isEmpty(p0)) {
                     currentPage = 0
                     totalPage = 0
-                    viewModel?.getSearchResults(p0!!, currentPage)
+                    viewModel?.sendUiIntent(SearchIntent.GetResults(p0!!, currentPage))
                 } else {
-                    viewModel?.getHotKeys()
+                    viewModel?.sendUiIntent(SearchIntent.GetHotKeys)
                 }
                 return true
             }
@@ -138,6 +156,9 @@ class SearchActivity : BaseActivity() {
     }
 
     private fun showSearchResults(articleData: ArticleData) {
+        if (articleData.datas == null) {
+            return
+        }
         if (recyclerView.visibility == View.GONE) {
             recyclerView.visibility = View.VISIBLE
         }
@@ -147,7 +168,7 @@ class SearchActivity : BaseActivity() {
         if (flowLayout.visibility == View.VISIBLE) {
             flowLayout.visibility = View.GONE
         }
-        if (articleData.curPage == 0) {
+        if (articleData.curPage == 1) {
             articleList.clear()
         }
         currentPage = articleData.curPage

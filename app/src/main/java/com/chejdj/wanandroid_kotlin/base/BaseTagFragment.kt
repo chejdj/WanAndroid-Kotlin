@@ -1,4 +1,4 @@
-package com.chejdj.wanandroid_kotlin.ui.base
+package com.chejdj.wanandroid_kotlin.base
 
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager

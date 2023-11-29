@@ -20,28 +20,28 @@ interface ApiService {
      */
     @POST("user/login")
     @FormUrlEncoded
-    fun userLogin(
+    suspend fun userLogin(
         @Field("username") username: String, @Field("password") password: String
-    ): Call<BaseRes<LoginBean?>>
+    ): BaseRes<LoginBean?>
 
     /**
      *获取首页banner
      */
     @GET("banner/json")
-    fun getHomeBanner(): Call<BaseRes<List<HomeBannerBean>?>>
+    suspend fun getHomeBanner(): BaseRes<List<HomeBannerBean>?>
 
     /**
      *获取首页文章列表
      * pageNum: 数据页数
      */
     @GET("article/list/{pageNum}/json")
-    fun getHomeArticles(@Path("pageNum") pageNum: Int): Call<BaseRes<ArticleData?>>
+    suspend fun getHomeArticles(@Path("pageNum") pageNum: Int): BaseRes<ArticleData?>
 
     /**
      *获取知识体系信息
      */
     @GET("tree/json")
-    fun getKnowledgeArchitecture(): Call<BaseRes<List<PrimaryArticleDirectoryBean>?>>
+    suspend fun getKnowledgeArchitecture(): BaseRes<List<PrimaryArticleDirectoryBean>?>
 
     /**
      *获取知识体系下文章详细文章
@@ -57,7 +57,7 @@ interface ApiService {
      * 获取搜索热词
      */
     @GET("hotkey/json")
-    fun getHotKeys(): Call<BaseRes<List<HotKeyBean>?>>
+    suspend fun getHotKeys(): BaseRes<List<HotKeyBean>?>
 
     /**
      * 搜索
@@ -66,15 +66,15 @@ interface ApiService {
      */
     @POST("article/query/{pageNum}/json")
     @FormUrlEncoded
-    fun getSearchResults(
+    suspend fun getSearchResults(
         @Path("pageNum") pageNum: Int, @Field("k") keywords: String
-    ): Call<BaseRes<ArticleData?>>
+    ): BaseRes<ArticleData?>
 
     /**
      * 获取收藏的文章
      */
     @GET("lg/collect/list/{pageNum}/json")
-    fun getCollectedArticle(@Path("pageNum") pageNum: Int): Call<BaseRes<ArticleData?>>
+    suspend fun getCollectedArticle(@Path("pageNum") pageNum: Int): BaseRes<ArticleData?>
 
     /**
      * 收藏站内文章
@@ -86,15 +86,15 @@ interface ApiService {
      * 获取微信公众号的列表
      */
     @GET("wxarticle/chapters/json")
-    fun getWechatArticleLists(): Call<BaseRes<List<PrimaryArticleDirectoryBean>?>>
+    suspend fun getWechatArticleLists(): BaseRes<List<PrimaryArticleDirectoryBean>?>
 
     /**
      * 查看微信公众号历史文章
      */
     @GET("wxarticle/list/{cid}/{pageNum}/json")
-    fun getWechatChapterArticles(
+    suspend fun getWechatChapterArticles(
         @Path("cid") cid: Int, @Path("pageNum") pageNum: Int
-    ): Call<BaseRes<ArticleData?>>
+    ): BaseRes<ArticleData?>
 
     /**
      * 在某个公众号里面搜索历史文章
@@ -108,14 +108,14 @@ interface ApiService {
      * 获取项目分类列表
      */
     @GET("project/tree/json")
-    fun getProjectSorts(): Call<BaseRes<List<PrimaryArticleDirectoryBean>?>>
+    suspend fun getProjectSorts(): BaseRes<List<PrimaryArticleDirectoryBean>?>
 
     /**
      * 获取项目列表数据
      */
     @GET("project/list/{pageNum}/json")
-    fun getProjectData(
+    suspend fun getProjectData(
         @Path("pageNum") pageNum: Int, @Query("cid") cid: Int
-    ): Call<BaseRes<ArticleData?>>
+    ): BaseRes<ArticleData?>
 
 }

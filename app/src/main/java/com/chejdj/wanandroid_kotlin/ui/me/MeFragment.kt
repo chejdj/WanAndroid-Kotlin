@@ -4,21 +4,25 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.view.View
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.account.AccountManager
+import com.chejdj.wanandroid_kotlin.base.BaseFragment
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
-import com.chejdj.wanandroid_kotlin.ui.base.BaseFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.login.LoginActivity
 import com.chejdj.wanandroid_kotlin.ui.me.viewmodel.MeViewModel
 import com.chejdj.wanandroid_kotlin.utils.StringUtils
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import kotlinx.coroutines.launch
 
 class MeFragment : BaseFragment() {
     @BindView(R.id.toolbar)
@@ -68,7 +72,7 @@ class MeFragment : BaseFragment() {
         adapter.loadMoreModule.setOnLoadMoreListener {
             currentPage++
             if (currentPage < totalPage) {
-                viewModel?.getCollectArticles(currentPage)
+                viewModel?.sendUiIntent(MeIntent.GetCollect(currentPage))
             } else {
                 adapter.loadMoreModule.loadMoreEnd()
             }
@@ -77,9 +81,13 @@ class MeFragment : BaseFragment() {
         recyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(this)[MeViewModel::class.java]
-        viewModel?.getCollectArticles(currentPage)
-        viewModel?.collectArticle?.observe(this) {
-            showCollectArticles(it)
+        viewModel?.sendUiIntent(MeIntent.GetCollect(currentPage))
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel?.uiStateFlow?.collect {
+                    showCollectArticles(it.data)
+                }
+            }
         }
     }
 
@@ -114,7 +122,7 @@ class MeFragment : BaseFragment() {
             if (recyclerView.visibility == View.GONE) {
                 recyclerView.visibility = View.VISIBLE
             }
-            if (data.curPage == 0) {
+            if (data.curPage == 1) {
                 articleData.clear()
             }
             if (totalPage == 0) {

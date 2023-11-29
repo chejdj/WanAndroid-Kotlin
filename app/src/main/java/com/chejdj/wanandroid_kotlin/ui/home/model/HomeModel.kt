@@ -6,11 +6,11 @@ import com.chejdj.wanandroid_kotlin.data.bean.HomeBannerBean
 import com.chejdj.wanandroid_kotlin.data.bean.article.ArticleData
 
 class HomeModel {
-     fun getBannerData(): BaseRes<List<HomeBannerBean>?> {
+    suspend fun getBannerData(): BaseRes<List<HomeBannerBean>?> {
         return DataManager.getHomeBanner()
     }
 
-     fun getArticlesData(pageNum: Int): BaseRes<ArticleData?> {
+    suspend fun getArticlesData(pageNum: Int): BaseRes<ArticleData?> {
         return DataManager.getHomeArticles(pageNum)
     }
 }

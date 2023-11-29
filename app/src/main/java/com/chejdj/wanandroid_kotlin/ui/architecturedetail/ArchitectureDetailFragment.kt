@@ -6,7 +6,7 @@ import butterknife.BindView
 import butterknife.OnClick
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
-import com.chejdj.wanandroid_kotlin.ui.base.BaseTagFragment
+import com.chejdj.wanandroid_kotlin.base.BaseTagFragment
 import java.util.*
 
 class ArchitectureDetailFragment : BaseTagFragment() {

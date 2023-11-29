@@ -2,16 +2,20 @@ package com.chejdj.wanandroid_kotlin.ui.commons
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
+import com.chejdj.wanandroid_kotlin.base.BaseLazyLoadViewPagerFragment
 import com.chejdj.wanandroid_kotlin.data.bean.article.Article
-import com.chejdj.wanandroid_kotlin.ui.base.BaseLazyLoadViewPagerFragment
 import com.chejdj.wanandroid_kotlin.ui.commons.adapter.CommonArticleAdapter
 import com.chejdj.wanandroid_kotlin.ui.commons.viewmodel.CommonViewModel
 import com.chejdj.wanandroid_kotlin.ui.webview.WebViewActivity
+import kotlinx.coroutines.launch
 
 class CommonArticleFragment : BaseLazyLoadViewPagerFragment() {
     @BindView(R.id.recyclerView)
@@ -43,7 +47,13 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment() {
             if (currentPage >= totalPage) {
                 adapter.loadMoreModule.loadMoreEnd()
             } else {
-                commonViewModel?.getArticleData(cid, currentPage, type)
+                commonViewModel?.sendUiIntent(
+                    CommonArticleIntent.GetCommonArticle(
+                        cid,
+                        currentPage,
+                        type
+                    )
+                )
             }
         }
         adapter.setOnItemClickListener { _, _, position ->
@@ -53,21 +63,25 @@ class CommonArticleFragment : BaseLazyLoadViewPagerFragment() {
             }
         }
 
-        commonViewModel?.commonArticleData?.observe(this) {
-            it?.let {
-                currentPage = it.curPage
-                totalPage = it.pageCount
-                adapter.loadMoreModule.loadMoreComplete()
-                if (currentPage == 0) {
-                    this.data.clear()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                commonViewModel?.uiStateFlow?.collect {
+                    it.data?.let { articleData ->
+                        currentPage = articleData.curPage
+                        totalPage = articleData.pageCount
+                        adapter.loadMoreModule.loadMoreComplete()
+                        if (currentPage == 0) {
+                            data.clear()
+                        }
+                        adapter.addData(articleData.datas!!)
+                    }
                 }
-                adapter.addData(it.datas!!)
             }
         }
     }
 
     override fun loadData() {
-        commonViewModel?.getArticleData(cid, currentPage, type)
+        commonViewModel?.sendUiIntent(CommonArticleIntent.GetCommonArticle(cid, currentPage, type))
     }
 
     companion object {

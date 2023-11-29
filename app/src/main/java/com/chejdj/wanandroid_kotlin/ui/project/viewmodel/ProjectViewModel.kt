@@ -1,30 +1,39 @@
 package com.chejdj.wanandroid_kotlin.ui.project.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chejdj.wanandroid_kotlin.base.BaseViewModel
 import com.chejdj.wanandroid_kotlin.commons.ERROR
-import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 import com.chejdj.wanandroid_kotlin.data.remote.executeResponse
+import com.chejdj.wanandroid_kotlin.ui.project.ProjectIntent
+import com.chejdj.wanandroid_kotlin.ui.project.ProjectState
 import com.chejdj.wanandroid_kotlin.ui.project.model.ProjectModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ProjectViewModel : ViewModel() {
+class ProjectViewModel : BaseViewModel<ProjectState, ProjectIntent>() {
     private val model = ProjectModel()
-    val tags: MutableLiveData<List<PrimaryArticleDirectoryBean>> = MutableLiveData()
-
-    fun getProjectTags() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun getProjectTags() {
+        viewModelScope.launch {
             val result = model.getProjectTags()
             executeResponse(result, {
                 result.data?.let {
-                    tags.postValue(it)
+                    sendUiState { copy(data = it) }
                 }
             }, {
                 Log.d(ERROR, "getProjectTags fail")
             })
+        }
+    }
+
+    override fun initState(): ProjectState {
+        return ProjectState(emptyList())
+    }
+
+    override fun handleIntent(uiIntent: ProjectIntent) {
+        when (uiIntent) {
+            ProjectIntent.GetTags -> {
+                getProjectTags()
+            }
         }
     }
 }

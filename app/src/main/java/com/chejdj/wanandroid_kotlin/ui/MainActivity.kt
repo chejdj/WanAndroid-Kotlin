@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import butterknife.BindView
 import com.chejdj.wanandroid_kotlin.R
 import com.chejdj.wanandroid_kotlin.ui.architecture.ArchitectureFragment
-import com.chejdj.wanandroid_kotlin.ui.base.BaseActivity
+import com.chejdj.wanandroid_kotlin.base.BaseActivity
 import com.chejdj.wanandroid_kotlin.ui.home.HomeFragment
 import com.chejdj.wanandroid_kotlin.ui.me.MeFragment
 import com.chejdj.wanandroid_kotlin.ui.project.ProjectFragment

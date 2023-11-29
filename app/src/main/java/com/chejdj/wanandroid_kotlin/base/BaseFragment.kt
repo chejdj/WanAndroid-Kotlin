@@ -1,4 +1,4 @@
-package com.chejdj.wanandroid_kotlin.ui.base
+package com.chejdj.wanandroid_kotlin.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

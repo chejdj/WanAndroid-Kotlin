@@ -5,7 +5,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.knowledgesystem.PrimaryArticleDirectoryBean
 
 class WechatStubModel {
-    fun getWechatChapters(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
+    suspend fun getWechatChapters(): BaseRes<List<PrimaryArticleDirectoryBean>?> {
         return DataManager.getWechatArticleLists()
     }
 }

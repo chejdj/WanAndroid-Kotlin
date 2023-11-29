@@ -5,7 +5,7 @@ import com.chejdj.wanandroid_kotlin.data.bean.BaseRes
 import com.chejdj.wanandroid_kotlin.data.bean.LoginBean
 
 class LoginModel {
-    fun login(
+    suspend fun login(
         accountName: String,
         password: String
     ): BaseRes<LoginBean?> {

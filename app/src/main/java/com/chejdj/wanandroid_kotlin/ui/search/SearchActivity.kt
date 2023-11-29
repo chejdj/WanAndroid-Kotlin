@@ -147,7 +147,7 @@ class SearchActivity : BaseActivity() {
         if (flowLayout.visibility == View.VISIBLE) {
             flowLayout.visibility = View.GONE
         }
-        if (articleData.curPage == 0) {
+        if (articleData.curPage == 1) {
             articleList.clear()
         }
         currentPage = articleData.curPage

@@ -114,7 +114,7 @@ class MeFragment : BaseFragment() {
             if (recyclerView.visibility == View.GONE) {
                 recyclerView.visibility = View.VISIBLE
             }
-            if (data.curPage == 0) {
+            if (data.curPage == 1) {
                 articleData.clear()
             }
             if (totalPage == 0) {

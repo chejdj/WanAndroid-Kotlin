@@ -84,7 +84,7 @@ class HomeFragment : BaseLazyLoadFragment() {
         }
         homeViewModel?.articleData?.observe(this) {
             if (it !== null && it.datas !== null) {
-                if (it.curPage == 0) {
+                if (it.curPage == 1) {
                     articleList.clear()
                 }
                 if (totalPage == 0) {

@@ -36,12 +36,7 @@
 
 ![登录](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/login.png?token=AQ4MyaDqXbyvT1_7QGZ9tnTuylsr25UZks5cmY_rwA%3D%3D)![我的](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/me.png?token=AQ4MyXe7t_GjrtN2f6fH4TblvcbBSHIxks5cmZACwA%3D%3D)![搜索热词](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/search_hot_keys.png?token=AQ4MySHXivZbbxGsRxKDT28I9F15fbeMks5cmZAdwA%3D%3D)  
 
-![搜索](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/search.png?token=AQ4MySH6FlcA90BGrtyjntteyjqyn54hks5cmZBtwA%3D%3D)![文章](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/article.png?token=AQ4MyZ4y36FW7ccDsmyNSgHvBz7Ye3QRks5cmZCFwA%3D%3D)  
-### 项目资源  
-1. [APP下载地址](https://www.pgyer.com/nP6h)，二维码  
-![二维码](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/apk_download.png)  
-(二维码的APK永远都是最新的，release上的重大更新才发版)  
-2. 项目地址: https://github.com/chejdj/WanAndroid-Kotlin
+![搜索](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/search.png?token=AQ4MySH6FlcA90BGrtyjntteyjqyn54hks5cmZBtwA%3D%3D)![文章](https://raw.githubusercontent.com/chejdj/WanAndroid/master/image/article.png?token=AQ4MyZ4y36FW7ccDsmyNSgHvBz7Ye3QRks5cmZCFwA%3D%3D)
 
 
 

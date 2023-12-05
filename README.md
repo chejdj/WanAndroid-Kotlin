@@ -1,6 +1,6 @@
 ## WanAndroid-Kotlin
 #### 项目介绍
-**一款每日推荐优质文章的APP,该项目是鸿洋大佬推荐Andorid开发者的一个开源项目，项目中的API为鸿洋大佬提供([API直通车](https://www.wanandroid.com/blog/show/2))，此项目基于Kotlin+Material Design+MVP+Kotlin Coroutines+Retrofit等一些主流框架搭建而成**  
+**一款每日推荐优质文章的APP,该项目是鸿洋大佬推荐Andorid开发者的一个开源项目，项目中的API为鸿洋大佬提供([API直通车](https://www.wanandroid.com/blog/show/2))，此项目基于Kotlin+Material Design+MVVM+Kotlin Coroutines+Retrofit等一些主流框架搭建而成**  
 ### 项目背景  
 公司的Android技术栈为Kotlin，于是想要拿一个项目练练手，加深一下对知识点的理解，以及对于Andorid开发整个流程的梳理，这个项目希望大家一起学习，探讨,尤其是对于Android新手如何写代码的通病以及如何写出高效简洁的代码(希望有大佬指点)，欢迎issue，star。  
 ### 整体模块
@@ -18,12 +18,9 @@
 * [Retrofit](https://github.com/square/retrofit)(网络请求框架)
 * [Butterknife](https://github.com/JakeWharton/butterknife)(注解绑定UI控件框架)
 * [Banner](https://github.com/youth5201314/banner)(一种广告图片轮播图控件)
-* [Floatingactionbutton](https://github.com/Clans/FloatingActionButton)(MaterialDesign格式的浮动按钮)
 * [Flowlayout](https://github.com/hongyangAndroid/FlowLayout)(Android流式布局)
+* [kotlinx-coroutines](https://github.com/Kotlin/kotlinx.coroutines)(Kotlin的协程库)
 * [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)(一个强大的RecyclerView适配器)
-* [EventBus](https://github.com/greenrobot/EventBus)(事件通知框架)
-* [RecyclerView]()(Andorid官方list控件)
-* [design]()(Android官方库，包含多种MaterialDesign控件)  
 ### 参考项目以及文章  
 * [hurshi大神的wanandroid](https://github.com/hurshi/wanandroid)(此项目的UI是参考，模仿hurshi大神的玩Andorid项目,感谢)
 * [Android冷启动解决方法](http://saulmm.github.io/avoding-android-cold-starts)  
